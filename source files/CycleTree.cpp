@@ -7,20 +7,9 @@
 
 CycleTree::~CycleTree()
 {
-
-    (this)::clean();
+    this.clean();
 }
-
-virtual void clean()
-{
-    delete(this.node);
-    delete(this.currCycle);
-    for(int i=0;i<children.size();i++)
-    {
-        delete children.at(i);
-    }
-    children.clear();
-}
+//copy operator
 virtual CycleTree& CycleTree::operator=(const CycleTree& other)
 {
     if(this==&other){
@@ -33,5 +22,25 @@ virtual CycleTree& CycleTree::operator=(const CycleTree& other)
     for(int i=0;i<other.children.size();i++) {
         delete children.at(i);
     }
-    children.push(new CycleTree(other.children.at(i).clone()));
+    children.push_back(other.children.at(i).clone());
+}
+virtual CycleTree* clone(const CycleTree& other )
+{
+    CycleTree* tree=new CycleTree(other.node,other.currCycle);
+    for(auto& child: other.children)
+    {
+        tree.children.push_back(child.clone());
+    }
+    return tree*;
+}
+virtual void clean()
+{
+    delete(this.node);
+    delete(this.currCycle);
+    for(auto& child: children)
+    {
+        delete child;
+        child=nullptr;
+    }
+    children.clean();
 }

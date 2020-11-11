@@ -10,7 +10,9 @@ public:
     Tree(int rootLabel);
     void addChild(const Tree& child);
     virtual Tree* clone()=0;
-    virtual void clean()=0;
+    virtual void clean()const =0;
+
+
 
 
     static Tree* createTree(const Session& session, int rootLabel);
