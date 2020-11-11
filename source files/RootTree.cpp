@@ -1,15 +1,23 @@
-#include "../include/Tree.h"//
+#include "../include/Tree.h"
+#include <iostream>
+using namespace std;
 // Created by barda on 09/11/2020.
 
 //constructor
-(RootTree)->RootTree(int rootLabel):Tree(rootLabel) {...}
+RootTree(int rootLabel):Tree(rootLabel) {...}
 
 //destructor
 RootTree::~RootTree()
 {
     this.clean();
 }
+RootTree::RootTree(const RootTree& other) Tree(other.node){
 
+    for(auto& child: other)
+    {
+        children.push_back(child.clone());
+    }
+}
 //copy operator
 virtual RootTree& CycleTree::operator=(const RootTree& other)
 {
@@ -25,14 +33,14 @@ virtual RootTree& CycleTree::operator=(const RootTree& other)
     children.push_back(other.children.at(i).clone());
 }
 
-virtual CycleTree* clone(const CycleTree& other )
+virtual RootTree* clone(const RootTree& other )
 {
-    CycleTree* tree=new CycleTree(other.node);
+    RootTree* tree=new RootTree(other.node);
     for(auto& child: other.children)
     {
         tree.children.push_back(child.clone());
     }
-    return tree*;
+    return tree;
 }
 
 virtual void clean()
@@ -45,8 +53,7 @@ virtual void clean()
     }
     children.clear();
 }
-
-virtual RootTree& clone(const RootTree& other)
+const char getType()
 {
-    RootTree& tree=new
+    return "R";
 }

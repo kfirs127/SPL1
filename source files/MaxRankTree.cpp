@@ -1,14 +1,23 @@
-#include "../include/Tree.h"//
+#include "../include/Tree.h"
+#include <iostream>
+using namespace std;
 // Created by barda on 09/11/2020.
 
-(MaxRankTree)->MaxRankTree(int rootLabel,):Tree(rootLabel) {...}
-
+//constructor
+MaxRankTree(int rootLabel):Tree(rootLabel) {}
 //destructor
 MaxRankTree::~MaxRankTree()
 {
     this.clean();
 }
+//copy constructor
+MaxRankTree::MaxRankTree(const MaxRankTree& other) Tree(other.node){
 
+    for(auto& child: other)
+    {
+        children.push_back(child.clone());
+    }
+}
 //copy operator
 virtual MaxRankTree& CycleTree::operator=(const MaxRankTree& other)
 {
@@ -19,19 +28,20 @@ virtual MaxRankTree& CycleTree::operator=(const MaxRankTree& other)
     this.clean();
     node=other.node;
     for(int i=0;i<other.children.size();i++) {
+
         delete children.at(i);
     }
     children.push_back(other.children.at(i).clone());
 }
 
-virtual CycleTree* clone(const CycleTree& other )
+virtual MaxRankTree* clone(const MaxRankTree& other )
 {
-    CycleTree* tree=new CycleTree(other.node);
+    MaxRankTree* tree=new MaxRankTree(other.node);
     for(auto& child: other.children)
     {
         tree.children.push_back(child.clone());
     }
-    return tree*;
+    return tree;
 }
 
 virtual void clean()
@@ -43,4 +53,8 @@ virtual void clean()
         child=nullptr;
     }
     children.clean();
+}
+const char getType()
+{
+    return "M";
 }

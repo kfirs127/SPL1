@@ -1,10 +1,21 @@
-#include "../include/Tree.h"//
+#include "../include/Tree.h"
+#include <iostream>
+using namespace std;
 // Created by barda on 09/11/2020.
 //
-(CycleTree)->CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(currCycle){...}
 
+//constructor
+CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(currCycle){...}
+
+//copy constructor
+CycleTree::CycleTree(const CycleTree& other) Tree(other.node,other.currCycle){
+
+    for(auto& child: other)
+    {
+        children.push_back(child.clone());
+    }
+}
 //destructor
-
 CycleTree::~CycleTree()
 {
     this.clean();
@@ -20,6 +31,7 @@ virtual CycleTree& CycleTree::operator=(const CycleTree& other)
     node=other.node;
     currCycle=other.currCycle;
     for(int i=0;i<other.children.size();i++) {
+
         delete children.at(i);
     }
     children.push_back(other.children.at(i).clone());
@@ -43,4 +55,8 @@ virtual void clean()
         child=nullptr;
     }
     children.clean();
+}
+const char getType()
+{
+    return "C";
 }
