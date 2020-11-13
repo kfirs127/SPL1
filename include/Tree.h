@@ -34,8 +34,8 @@ public:
     CycleTree(int rootLabel, int currCycle);
     CycleTree(const CycleTree& other);
     CycleTree(CycleTree&& other);
-    virtual CycleTree& operator=(const CycleTree& other)
-    virtual CycleTree& operator=( CycleTree&& other)
+    virtual CycleTree& operator=(const CycleTree& other);
+    virtual CycleTree& operator=( CycleTree&& other);
     virtual int traceTree();
 private:
     int currCycle;
@@ -46,8 +46,8 @@ public:
     MaxRankTree(int rootLabel);
     MaxRankTree(const MaxRankTree& other);
     MaxRankTree(MaxRankTree&& other);
-    virtual MaxRankTree& operator=(const MaxRankTree& other)
-    virtual MaxRankTree& operator=( MaxRankTree&& other)
+    virtual MaxRankTree& operator=(const MaxRankTree& other);
+    virtual MaxRankTree& operator=( MaxRankTree&& other);
     virtual int traceTree();
 }
 
@@ -57,7 +57,7 @@ public:
     RootTree(const RootTree& other);
     RootTree(RootTree&& other);
     virtual RootTree& operator=(const RootTree& other);
-    virtual RootTree& operator=( RootTree&& other)
+    virtual RootTree& operator=( RootTree&& other);
     virtual int traceTree();
 }
 
