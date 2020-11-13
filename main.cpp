@@ -8,7 +8,7 @@ int main(int argc, char** argv){
         cout << "usage cTrace <config_path>" << endl;
         return 0;
     }
-    /* code foe reading json
+    /* code for reading json
     #include "json.hpp";
 
      using json=nlohmann::json;
