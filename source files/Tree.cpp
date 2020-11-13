@@ -1,4 +1,5 @@
 #include "../include/Tree.h"
+#include "Session.h"
 #include <iostream>
 using namespace std;
 // Created by barda on 08/11/2020.
@@ -16,9 +17,9 @@ Tree::Tree(int rootLabel) {
 
 Tree* createTree(const Session& session, int rootLabel) {
 
-    if(session.getType()=="C")
+    if(Session.getTreeType()=="Cycle")
         return (new CycleTree(rootLabel,session.getCycleNum()));
-    if(session.getType()=="M")
+    if(Session.getTreeType()=="MaxRank")
         return (new MaxRankTree(rootLabel));
     else
         return (new RootTree((rootLabel)));
