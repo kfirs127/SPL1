@@ -25,8 +25,22 @@ Tree* createTree(const Session& session, int rootLabel) {
 
 
 }
-Tree::Tree(int rootLabel) {
-        node= rootLabel;
+//copy constructor
+Tree::Tree(const Tree& other)
+{
+    this->node=other.node;
+    for(auto& child: other)
+    {
+        children.push_back(child.clone());
+    }
+}
+//move constructor
+Tree::Tree(Tree&& other){
+    this->node=other.node;
+    this->children=other.children;
+    other.node= nullptr;
+    other.children= nullptr;
+
 }
 int getNode()
 {

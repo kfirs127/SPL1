@@ -18,6 +18,13 @@ MaxRankTree::MaxRankTree(const MaxRankTree& other) Tree(other.node){
         children.push_back(child.clone());
     }
 }
+//move constructor
+MaxRankTree::MaxRankTree(Tree&& other){
+    this->node=other.node;
+    this->children=other.children;
+    other.node= nullptr;
+    other.children= nullptr;
+}
 //copy operator
 virtual MaxRankTree& CycleTree::operator=(const MaxRankTree& other)
 {
@@ -33,7 +40,19 @@ virtual MaxRankTree& CycleTree::operator=(const MaxRankTree& other)
     }
     children.push_back(other.children.at(i).clone());
 }
+//move operator
+virtual MaxRankTree& MaxRankTree::operator=( CycleTree&& other)
+{
+    if(this==&other){
 
+        return *this;
+    }
+    this.clean();
+    this.node=other.node;
+    this.children=other.children;
+    other.node=nullptr;
+    other.children=nullptr;
+}
 virtual MaxRankTree* clone(const MaxRankTree& other )
 {
     MaxRankTree* tree=new MaxRankTree(other.node);
