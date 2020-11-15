@@ -64,10 +64,13 @@ virtual MaxRankTree* clone(const MaxRankTree& other )
 }
 virtual int MaxRankTree::traceTree() {
 
-    if(this.children.Size==0)
-        return 0;
-    else
-        return max();
+    int x=this.children.Size;
+    for(MaxRankTree* child  : children )
+    {
+        if(child::traceTree()>x)
+            x=child::traceTree();
+    }
+    return x;
 
 }
 virtual void clean()
