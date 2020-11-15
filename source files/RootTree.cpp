@@ -54,6 +54,9 @@ virtual RootTree& RootTree::operator=(const CycleTree& other)
     other.node=nullptr;
     other.children=nullptr;
 }
+virtual int RootTree::traceTree() {
+    return  this.node;
+}
 virtual RootTree* clone(const RootTree& other )
 {
     RootTree* tree=new RootTree(other.node);

@@ -62,7 +62,14 @@ virtual MaxRankTree* clone(const MaxRankTree& other )
     }
     return tree;
 }
+virtual int MaxRankTree::traceTree() {
 
+    if(this.children.Size==0)
+        return 0;
+    else
+        return max();
+
+}
 virtual void clean()
 {
     delete(this.node);
@@ -76,4 +83,15 @@ virtual void clean()
 const char getType()
 {
     return "M";
+}
+public int getHeigh(){
+    return this.children.Size;
+}
+public int max()
+{
+    if(y>=x & y>=z)
+        return y;
+    if(x>=y & x>=z)
+        return x;
+    return z;
 }

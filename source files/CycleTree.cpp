@@ -5,7 +5,7 @@ using namespace std;
 //
 
 //constructor
-CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(currCycle){...}
+CycleTree::CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(currCycle){...}
 
 //copy constructor
 CycleTree::CycleTree(const CycleTree& other) Tree(other.node,other.currCycle){
@@ -59,6 +59,18 @@ virtual CycleTree& CycleTree::operator=(CycleTree&& other)
     other.node=nullptr;
     other.children=nullptr;
     other.currCycle==nullptr;
+}
+virtual int CycleTree::traceTree()
+{
+    return getSon(this.currCycle);
+}
+public int getSon(int currCyc)
+{
+    if(currCyc==0)
+        return this.node;
+    else{
+        return this.children[0].getSon(currCyc-1);
+    }
 }
 virtual CycleTree* clone(const CycleTree& other )
 {
