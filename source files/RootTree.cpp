@@ -1,83 +1,78 @@
 #include "../include/Tree.h"
 #include <iostream>
 using namespace std;
-// Created by barda on 09/11/2020.
+// Created by bardam on 09/11/2020.
 
 //constructor
-RootTree(int rootLabel):Tree(rootLabel) {...}
+RootTree::RootTree(int rootLabel):Tree(rootLabel) {}
 
 //destructor
 RootTree::~RootTree()
 {
-    this.clean();
+    this->clean();
 }
 //copy constructor
-RootTree::RootTree(const RootTree& other) Tree(other.node){
+RootTree::RootTree(const RootTree& other): Tree(other.getNode()){
 
-    for(auto& child: other)
+    for(auto& child: other.getChildren())
     {
-        children.push_back(child.clone());
+        addChild(child->clone());
     }
 }
 //move constructor
-RootTree::RootTree(Tree&& other){
-    this->node=other.node;
-    this->children=other.children;
-    other.node= nullptr;
-    other.children= nullptr;
+RootTree::RootTree(RootTree &&other):Tree(other.getNode()){
+    for(auto& child: other.getChildren())
+        addChild(child);
+    other.clean();
 
 }
 //copy operator
-virtual RootTree& CycleTree::operator=( RootTree&& other)
-{
+RootTree& RootTree::operator=(const RootTree &other) {
+
     if(this==&other){
 
         return *this;
     }
-    this.clean();
-    node=other.node;
-    for(int i=0;i<other.children.size();i++) {
-        delete children.at(i);
-    }
-    children.push_back(other.children.at(i).clone());
+    this->clean();
+    this->setNode(other.getNode());
+    for(auto& child: other.getChildren())
+        addChild(child->clone());
 }
 //move operator
-virtual RootTree& RootTree::operator=(const CycleTree& other)
+RootTree& RootTree::operator=( RootTree&& other)
 {
     if(this==&other){
 
         return *this;
     }
-    this.clean();
-    this.node=other.node;
-    this.children=other.children;
-    other.node=nullptr;
-    other.children=nullptr;
+    this->clean();
+    this->setNode(other.getNode());
+    for(auto& child: other.getChildren())
+        addChild(child->clone());
+    other.clean();
 }
-virtual int RootTree::traceTree() {
-    return  this.node;
+ int RootTree::traceTree() {
+    return  this->getNode();
 }
-virtual RootTree* clone(const RootTree& other )
+ RootTree* clone(const RootTree& other)
 {
-    RootTree* tree=new RootTree(other.node);
-    for(auto& child: other.children)
+    RootTree* tree= new RootTree(other.getNode());
+    for(auto& child: other.getChildren())
     {
-        tree.children.push_back(child.clone());
+        (tree)->addChild(child->clone());
     }
     return tree;
 }
 
-virtual void clean()
+ void clean()
 {
-    delete(this.node);
-    for(auto& child: children)
+    for(auto& child: )
     {
         delete child;
         child=nullptr;
     }
-    children.clear();
 }
 const char getType()
 {
-    return "R";
+    return 'R';
 }

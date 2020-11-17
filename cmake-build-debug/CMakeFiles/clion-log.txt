@@ -1,1 +1,4 @@
-Visual Studio not found at: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community Configure
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /tmp/tmp.PqlLAPxVQ1
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/tmp.PqlLAPxVQ1/cmake-build-debug

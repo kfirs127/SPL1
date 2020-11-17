@@ -5,12 +5,12 @@ using namespace std;
 //
 
 //constructor
-CycleTree::CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(currCycle){...}
+CycleTree::CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(currCycle){}
 
 //copy constructor
-CycleTree::CycleTree(const CycleTree& other) Tree(other.node,other.currCycle){
+CycleTree::CycleTree(const CycleTree& other): Tree(othergetNode()),currCycle(other.currCycle){
 
-    for(auto& child: other)
+    for(auto& child : other)
     {
         children.push_back(child.clone());
     }
@@ -19,15 +19,15 @@ CycleTree::CycleTree(const CycleTree& other) Tree(other.node,other.currCycle){
 CycleTree::CycleTree(Tree&& other){
     this->node=other.node;
     this->children=other.children;
-    this.currCycle=other.currCycle;
+    currCycle=other.currCycle;
     other.node= nullptr;
-    other.currCycle=nullptr;
-    other.children= nullptr;
+    currCycle=nullptr;
+    other children= nullptr;
 }
 //destructor
 CycleTree::~CycleTree()
 {
-    this.clean();
+    this->clean();
 }
 //copy operator
 virtual CycleTree& CycleTree::operator=(const CycleTree& other)
