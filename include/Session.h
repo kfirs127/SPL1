@@ -1,7 +1,3 @@
-//
-// Created by 97254 on 06/11/2020.
-//
-
 #ifndef UNTITLED_SESSION_H
 #define UNTITLED_SESSION_H
 
@@ -11,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include <queue>
 #include "Graph.h"
 
 class Agent;
@@ -24,19 +21,27 @@ enum TreeType{
 class Session{
 public:
     Session(const std::string& path);
+    virtual ~Session();
+    Session(const  Session &other);
+    const Session& operator=(const Session &other);
+    Session(Session&& other);
+    const Session& operator=(Session&& other);
 
     void simulate();
     void addAgent(const Agent& agent);
     void setGraph(const Graph& graph);
 
-    void enqueueInfected(int);
+    void enqueueInfected(int Vnode);
     int dequeueInfected();
     TreeType getTreeType() const;
+
+    std::vector<std::vector<int>> getEdges();
 
 private:
     Graph g;
     TreeType treeType;
-    std::vector<Agent*> agents;
-}
+    std::vector<Agent*>agents;
+    std::queue<int> infected;
+};
 
 #endif
