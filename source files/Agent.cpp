@@ -1,6 +1,6 @@
-#include "Agent.h"
-#include "Session.h"
-#include "Tree.h"
+#include "../include/Agent.h"
+#include "../include/Session.h"
+#include "../include/Tree.h"
 #include <vector>
 #include <iostream>
 

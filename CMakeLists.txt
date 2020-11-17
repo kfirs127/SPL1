@@ -3,4 +3,4 @@ project(SPL1)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(SPL1 main.cpp)
+add_executable(SPL1 main.cpp Graph.cpp)

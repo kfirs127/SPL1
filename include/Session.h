@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 #include <queue>
-#include "Graph.h"
+#include "../include/Graph.h"
 
 class Agent;
 

@@ -1,100 +1,32 @@
 #include "../include/Tree.h"
 #include <iostream>
 using namespace std;
-// Created by barda on 09/11/2020.
 
 //constructor
-MaxRankTree(int rootLabel):Tree(rootLabel) {}
-//destructor
-MaxRankTree::~MaxRankTree()
-{
-    this.clean();
-}
-//copy constructor
-MaxRankTree::MaxRankTree(const MaxRankTree& other) Tree(other.node){
+MaxRankTree::MaxRankTree(int rootLabel):Tree((rootLabel)){}
 
-    for(auto& child: other)
+Tree * MaxRankTree::clone() const {
+    MaxRankTree* tree=new MaxRankTree(this->GetNode());
+    for(auto& child: this->GetChildren())
     {
-        children.push_back(child.clone());
-    }
-}
-//move constructor
-MaxRankTree::MaxRankTree(Tree&& other){
-    this->node=other.node;
-    this->children=other.children;
-    other.node= nullptr;
-    other.children= nullptr;
-}
-//copy operator
-virtual MaxRankTree& CycleTree::operator=(const MaxRankTree& other)
-{
-    if(this==&other){
-
-        return *this;
-    }
-    this.clean();
-    node=other.node;
-    for(int i=0;i<other.children.size();i++) {
-
-        delete children.at(i);
-    }
-    children.push_back(other.children.at(i).clone());
-}
-//move operator
-virtual MaxRankTree& MaxRankTree::operator=( CycleTree&& other)
-{
-    if(this==&other){
-
-        return *this;
-    }
-    this.clean();
-    this.node=other.node;
-    this.children=other.children;
-    other.node=nullptr;
-    other.children=nullptr;
-}
-virtual MaxRankTree* clone(const MaxRankTree& other )
-{
-    MaxRankTree* tree=new MaxRankTree(other.node);
-    for(auto& child: other.children)
-    {
-        tree.children.push_back(child.clone());
+        tree->addChild(child->clone());
     }
     return tree;
 }
-virtual int MaxRankTree::traceTree() {
 
-    int x=this.children.Size;
-    for(MaxRankTree* child  : children )
+int MaxRankTree::traceTree() {
+    int x = this->GetChildren().size();
+    for(Tree* child : this->GetChildren())
     {
-        if(child::traceTree()>x)
-            x=child::traceTree();
+        if(child->traceTree() >x)
+            x = child->traceTree();
     }
     return x;
 
 }
-virtual void clean()
-{
-    delete(this.node);
-    for(auto& child: children)
-    {
-        delete child;
-        child=nullptr;
-    }
-    children.clean();
-}
-const char getType()
-{
-    return "M";
-}
-public int getHeigh(){
-    return this.children.Size;
-}
-public int max()
-{
-    if(y>=x & y>=z)
-        return y;
-    if(x>=y & x>=z)
-        return x;
-    return z;
+
+void MaxRankTree::clean() const{
+   for(int i = 0 ; i < GetChildren().size()  ; i++){
+       delete GetChildren().at(i);
+   }
 }

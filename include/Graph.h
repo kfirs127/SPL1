@@ -15,6 +15,6 @@ public:
 private:
     std::vector<std::vector<int>> edges;
     std::vector<bool> Inodes;  // will represent the infected nodes.
-}
+};
 
 #endif

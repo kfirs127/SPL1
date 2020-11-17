@@ -1,9 +1,8 @@
-#include "Session.h"
-#include "Graph.h"
-#include "json.hpp"
-#include "Tree.h"
-#include "json.hpp"
-#include "Agent.h"
+#include "../include/Session.h"
+#include "../include/Graph.h"
+#include "../include/Tree.h"
+#include "../include/json.hpp"
+#include "../include/Agent.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
