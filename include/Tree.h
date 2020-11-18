@@ -1,6 +1,5 @@
 #ifndef TREE_H_
 #define TREE_H_
-
 #include <vector>
 
 class Session;
@@ -14,8 +13,8 @@ public:
     void addChild(const Tree& child);
     void addChild(Tree* child);
     const Tree& getChild(int place);
-    virtual Tree* clone()const=0;
-    virtual void clean()const =0;
+    virtual Tree* clone() const;
+    Tree& operator=(Tree&& other);
     Tree& operator=(const Tree& other);
     static Tree* createTree(const Session& session, int rootLabel);
     virtual int traceTree()=0;
@@ -24,11 +23,13 @@ public:
 private:
     int node;
     std::vector<Tree*> children;
+    virtual void clean()const ;
 };
 
 class CycleTree: public Tree{
 public:
     CycleTree(int rootLabel, int currCycle);
+    ~CycleTree();
     virtual int traceTree();
     virtual Tree* clone() const;
     virtual void clean() const;
@@ -41,6 +42,7 @@ private:
 class MaxRankTree: public Tree{
 public:
     MaxRankTree(int rootLabel);
+    ~MaxRankTree();
     virtual int traceTree();
     virtual Tree* clone() const;
     virtual void clean() const;
@@ -51,6 +53,7 @@ private:
 class RootTree: public Tree{
 public:
     RootTree(int rootLabel);
+    ~RootTree();
     virtual int traceTree();
     virtual Tree* clone() const;
     virtual void clean() const;

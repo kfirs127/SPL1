@@ -4,7 +4,7 @@ using namespace std;
 
 //constructor
 MaxRankTree::MaxRankTree(int rootLabel):Tree((rootLabel)){}
-
+MaxRankTree::~MaxRankTree() {}
 Tree * MaxRankTree::clone() const {
     MaxRankTree* tree=new MaxRankTree(this->GetNode());
     for(auto& child: this->GetChildren())

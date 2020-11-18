@@ -6,9 +6,7 @@ using namespace std;
 //Destructor
 Tree::~Tree()
 {
-    for(int i = 0 ; i < GetChildren().size()  ; i++){
-        delete GetChildren().at(i);
-    }
+    clean();
 }
 //Constructor
 Tree::Tree(int rootLabel) {
@@ -18,7 +16,7 @@ Tree::Tree(int rootLabel) {
 Tree * Tree::createTree(const Session &session, int rootLabel) {
     TreeType type = session.getTreeType();
     if(type == Cycle){
-        return new CycleTree(rootLabel,0);
+        return new CycleTree(rootLabel,1);
     }
     else if(type == MaxRank){
         return new MaxRankTree(rootLabel);
@@ -43,7 +41,29 @@ Tree::Tree(Tree&& other){
 int Tree::GetNode()const{
     return node;
 }
+//copy operator
+Tree & Tree::operator=(const Tree &other) {
+        if(this==&other){
 
+            return *this;
+        }
+        this->clean();
+        this->node=other.GetNode();
+        for(auto& child: other.GetChildren())
+            addChild(child->clone());
+}
+Tree& Tree::operator=(Tree&& other)
+{
+    if(this==&other){
+
+        return *this;
+    }
+    this->clean();
+    this->node=other.GetNode();
+    for(auto& child:other.GetChildren())
+        addChild(child);
+    other.clean();
+}
 void Tree::addChild(const Tree &child) {
     children.push_back(child.clone());
 }
@@ -61,7 +81,12 @@ const Tree& Tree::getChild(int num)
     }
     throw ("child not exist");
 }
+void Tree::clean() const {
 
-Tree * Tree::clone() const{}
-void Tree::clean() const {}
+    for(auto & child: this->children){
+        delete child;
+
+    }
+}
+Tree * Tree::clone() const {}
 int Tree::traceTree(){}
