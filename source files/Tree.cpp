@@ -67,5 +67,13 @@ const Tree& Tree::getChild(int num)
 
     }
 }
+
+int Tree::GetDepth() {
+    return depth;
+}
+
+void Tree::SetDepth(int newDepth) {
+    depth = newDepth;
+}
 Tree * Tree::clone() const {}
 int Tree::traceTree(){}
