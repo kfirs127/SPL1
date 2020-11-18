@@ -55,22 +55,6 @@ void Tree::addChild(Tree *child) {
     children.push_back(child);
 }
 
-const Tree& Tree::getChild(int num)
-{
-    for(auto& child: children)
-    {
-        if(child->node==num)
-            return *child;
-    }
-    throw ("child not exist");
-}
-
-    for(auto & child: this->children){
-        delete child;
-
-    }
-}
-
 int Tree::GetDepth() const{
     return depth;
 }

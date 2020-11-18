@@ -33,18 +33,21 @@ Tree * Graph::BFS(Session &session, int sorce){
     }
     nodes.push(tree);
     IN[sorce] = true;
-    while(!nodes.empty()){
+    while(!nodes.empty()) {
         nodes.pop();
         Graph tempGraph = session.getGragh();
         neighbors = tempGraph.edgesOf(tree->GetNode());
-        for(int neighbor : neighbors){
-            Tree* neighborTree;
-            if(!IN[neighbor]) Tree* neighborTree = Tree::createTree(session , neighbor);
-            neighborTree->SetDepth(tree->GetDepth() + 1);
-            nodes.push(neighborTree);
-            tree->addChild(neighborTree);
-            IN[neighbor] = tree;
+        for (int neighbor : neighbors) {
+            Tree *neighborTree;
+            if (!IN[neighbor]) {
+                neighborTree = Tree::createTree(session, neighbor);
+                neighborTree->SetDepth(tree->GetDepth() + 1);
+                nodes.push(neighborTree);
+                tree->addChild(neighborTree);
+                IN[neighbor] = tree;
+            }
         }
+
     }
     return tree;
 }

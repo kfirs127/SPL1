@@ -13,7 +13,6 @@ public:
     Tree(const Tree& other);
     void addChild(const Tree& child);
     void addChild(Tree* child);
-    const Tree& getChild(int place);
     virtual Tree* clone()const=0;
     virtual void clean()const =0;
     Tree& operator=(const Tree& other);
@@ -32,6 +31,7 @@ private:
 class CycleTree: public Tree{
 public:
     CycleTree(int rootLabel, int currCycle);
+    ~CycleTree();
     virtual int traceTree();
     virtual Tree* clone() const;
     virtual void clean() const;
@@ -44,6 +44,7 @@ private:
 class MaxRankTree: public Tree{
 public:
     MaxRankTree(int rootLabel);
+    ~MaxRankTree();
     virtual int traceTree();
     virtual Tree* clone() const;
     virtual void clean() const;
@@ -54,6 +55,7 @@ private:
 class RootTree: public Tree{
 public:
     RootTree(int rootLabel);
+    ~RootTree();
     virtual int traceTree();
     virtual Tree* clone() const;
     virtual void clean() const;

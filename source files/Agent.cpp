@@ -44,7 +44,22 @@ Agent * ContactTracer::clone() const {
 Virus::Virus(int nodeInd):nodeInd(nodeInd){}
 
 void Virus::act(Session &session){
-
+    vector<vector<int>> edges = session.getEdges();
+    int root = session.dequeueInfected();
+    if(root != -1){
+        bool check = false;
+        int neighbor = -1;
+        for(int i = 0 ; i < edges[nodeInd].size() && !check ; i++){
+            if(edges[nodeInd][i] == 1 && !session.isInfected(i)){
+                neighbor = i;
+                check = true;
+            }
+        }
+        if(check){
+            session.enqueueInfected(neighbor);
+            session.addAgent(Virus(neighbor));
+        }
+    }
 }
 
 Agent * Virus::clone() const {

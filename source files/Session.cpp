@@ -12,7 +12,7 @@
 using json=nlohmann::json;
 using namespace std;
 
-Session::Session(const std::string &path):g(),treeType(),agents(),infected(){
+Session::Session(const std::string &path):g(),treeType(),agents(),infected(),countCycle(){
     ifstream file(path);
     json j;
     file >> j;
@@ -20,6 +20,7 @@ Session::Session(const std::string &path):g(),treeType(),agents(),infected(){
     g = Graph(j["graphs"]);
     treeType = j["tree"];
     Session::infected = queue<int>();
+    countCycle = 1;
     for(auto& elem:j["agents"])
      {
         if(elem[0] == "C"){
@@ -44,6 +45,7 @@ Session::Session(const Session &other):g(),treeType(),agents(),infected(){ // co
     g = other.g;
     infected = other.infected;
     treeType = other.treeType;
+    countCycle = other.countCycle;
     agents = vector<Agent *>();
     for (int i = 0; i < other.agents.size(); i++) {
         agents.push_back(other.agents[i]->clone());
@@ -55,6 +57,7 @@ const Session& Session::operator=(const Session &other){  //assignment operator.
         g = other.g;
         infected = other.infected;
         treeType = other.treeType;
+        countCycle = other.countCycle;
         agents = vector<Agent *>();
         for (int i = 0; i < other.agents.size(); i++) {
             agents[i] = other.agents[i];
@@ -68,6 +71,7 @@ Session::Session(Session &&other):g(),treeType(),agents(),infected(){  //move co
     g = other.g;
     infected = other.infected;
     treeType = other.treeType;
+    countCycle = other.countCycle;
     agents = other.agents;
     for(int i = 0 ; i < agents.size() ; i++){
         other.agents[i] = nullptr;
@@ -81,6 +85,7 @@ const Session & Session::operator=(Session &&other){ // move assignment operator
     g = other.g;
     infected = other.infected;
     treeType = other.treeType;
+    countCycle = other.countCycle;
     agents = other.agents;
     for(int i = 0 ; i < agents.size() ; i++){
         other.agents[i] = nullptr;
@@ -128,4 +133,16 @@ std::queue<int> Session::getInfected() {
 
 Graph Session::getGragh() {
     return g;
+}
+
+std::vector<std::vector<int>> Session::getEdges() {
+    return g.GetEdges();
+}
+
+int Session::GetCountCycle() {
+    return countCycle;
+}
+
+bool Session::isInfected(int node) {
+    return std::find(this->infected.front(), this->infected.back(), node);
 }

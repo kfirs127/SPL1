@@ -38,12 +38,15 @@ public:
     std::vector<std::vector<int>> getEdges();
     std::queue<int> getInfected();
     Graph getGragh();
+    int GetCountCycle();
+    bool isInfected(int node);
 
 private:
     Graph g;
     TreeType treeType;
     std::vector<Agent*>agents;
     std::queue<int> infected;
+    int countCycle;
 };
 
 #endif
