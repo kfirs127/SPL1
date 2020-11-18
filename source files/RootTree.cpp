@@ -8,7 +8,7 @@ RootTree::RootTree(int rootLabel):Tree(rootLabel){}
 int RootTree::traceTree() {
     return this->GetNode();
 }
-
+RootTree::~RootTree() {}
 Tree * RootTree::clone() const{
     RootTree* tree=new RootTree(this->GetNode());
     for(auto& child: this->GetChildren())

@@ -5,7 +5,7 @@ using namespace std;
 
 //constructor
 CycleTree::CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(currCycle){}
-
+CycleTree::~CycleTree() {}
 int CycleTree::traceTree() {
     return getSon(this->currCycle);
 }
