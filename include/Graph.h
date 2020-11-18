@@ -1,5 +1,7 @@
 #ifndef GRAPH_H_
 #define GRAPH_H_
+#include "..\include\Session.h"
+#include "..\include\Tree.h"
 #include <vector>
 
 class Graph{
@@ -9,8 +11,9 @@ public:
 
     void infectNode(int nodeInd);
     bool isInfected(int nodeInd);
-    Graph BFS(Graph G , int sorce);
+    Tree* BFS(Session& session, int sorce);
     std::vector<std::vector<int>> GetEdges();
+    std::vector<int> edgesOf(int node);
 
 private:
     std::vector<std::vector<int>> edges;

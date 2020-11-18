@@ -97,7 +97,9 @@ void Session::simulate() {
     }
 }
 
-void Session::addAgent(const Agent &agent){}
+void Session::addAgent(const Agent &agent){
+    agents.push_back(agent.clone());
+}
 
 void Session::setGraph(const Graph &graph) {
     g = graph;
@@ -108,6 +110,7 @@ void Session::enqueueInfected(int Vnode) {
 }
 
 int Session::dequeueInfected() {
+    if(infected.empty()) return -1;
     int temp = infected.front();
     infected.pop();
     return temp;
@@ -119,3 +122,10 @@ TreeType Session::getTreeType() const {
 
 
 
+std::queue<int> Session::getInfected() {
+    return infected;
+}
+
+Graph Session::getGragh() {
+    return g;
+}

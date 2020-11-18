@@ -19,7 +19,21 @@ Agent * Agent::clone() const{}
 // contactTracer
 ContactTracer::ContactTracer(){}
 
-void ContactTracer::act(Session &session) {}
+void ContactTracer::act(Session &session) {
+    vector<vector<int>> edges = session.getEdges();
+    int root = session.dequeueInfected();
+    if(root != -1){
+        Tree *t = Tree::createTree(session , root);
+        int toRemove = t->traceTree();
+        for(int i = 0 ; i < edges[toRemove].size() ; i++){
+            edges[toRemove][i] = 0;
+        }
+        for(int i = 0 ; i < edges.size() ; i++){
+            edges[i][toRemove] = 0;
+        }
+        t->clean();
+    }
+}
 
 Agent * ContactTracer::clone() const {
     return new ContactTracer(*this);
@@ -30,19 +44,7 @@ Agent * ContactTracer::clone() const {
 Virus::Virus(int nodeInd):nodeInd(nodeInd){}
 
 void Virus::act(Session &session){
-    vector<vector<int>> edges = session.getEdges();
-    int root = session.dequeueInfected();
-    if(root != -1){
-        Tree *t = Tree::createTree(session , root);
-        int toRemove = t->traceTree();
-        for(int elem : edges[toRemove]){
-            elem = 0;
-        }
-        for(int i = 0 ; i < edges.size() ; i++){
-            edges[i][toRemove] = 0;
-        }
-        delete t;
-    }
+
 }
 
 Agent * Virus::clone() const {

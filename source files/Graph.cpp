@@ -1,5 +1,7 @@
 #include "../include/Graph.h"
+#include "../include/Tree.h"
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -20,8 +22,43 @@ bool Graph::isInfected(int nodeInd){
     return Inodes[nodeInd];
 }
 
-Graph BFS(Graph G , int sorce){}
+Tree * Graph::BFS(Session &session, int sorce){
+    vector<int> neighbors = session.getEdges()[sorce];
+    if(neighbors.empty()) return Tree::createTree(session , sorce);
+    Tree* tree = Tree::createTree(session , sorce);
+    queue<Tree*> nodes = queue<Tree*>();
+    bool IN[session.getInfected().size()];
+    for(int elem : IN){
+        IN[elem] = false;
+    }
+    nodes.push(tree);
+    IN[sorce] = true;
+    while(!nodes.empty()){
+        nodes.pop();
+        Graph tempGraph = session.getGragh();
+        neighbors = tempGraph.edgesOf(tree->GetNode());
+        for(int neighbor : neighbors){
+            Tree* neighborTree;
+            if(!IN[neighbor]) Tree* neighborTree = Tree::createTree(session , neighbor);
+            neighborTree->SetDepth(tree->GetDepth() + 1);
+            nodes.push(neighborTree);
+            tree->addChild(neighborTree);
+            IN[neighbor] = tree;
+        }
+    }
+    return tree;
+}
 
 std::vector<std::vector<int>> Graph::GetEdges() {
     return edges;
+}
+
+std::vector<int> Graph::edgesOf(int node) {
+    vector<int> toReturn = vector<int>();
+    for(int check : edges[node]){
+       if(edges[node][check]){
+           toReturn.push_back(check);
+       }
+    }
+    return toReturn;
 }

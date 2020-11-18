@@ -36,6 +36,8 @@ public:
     TreeType getTreeType() const;
 
     std::vector<std::vector<int>> getEdges();
+    std::queue<int> getInfected();
+    Graph getGragh();
 
 private:
     Graph g;

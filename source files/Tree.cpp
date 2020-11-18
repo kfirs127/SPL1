@@ -12,8 +12,9 @@ Tree::~Tree()
 }
 //Constructor
 Tree::Tree(int rootLabel) {
-    this->node = rootLabel;
-    this->children = vector<Tree*>();
+    node = rootLabel;
+    children = vector<Tree*>();
+    depth = 0;
 }
 Tree * Tree::createTree(const Session &session, int rootLabel) {
     TreeType type = session.getTreeType();
@@ -28,16 +29,18 @@ Tree * Tree::createTree(const Session &session, int rootLabel) {
 //copy constructor
 Tree::Tree(const Tree& other)
 {
-    this->node=other.node;
+    node=other.node;
     for(auto& child : other.children)
     {
         children.push_back(child->clone());
     }
+    depth = other.depth;
 }
 //move constructor
 Tree::Tree(Tree&& other){
-    this->node=other.node;
-    this->children=other.children;
+    node=other.node;
+    children=other.children;
+    depth = other.depth;
 }
 
 int Tree::GetNode()const{
@@ -60,6 +63,14 @@ const Tree& Tree::getChild(int num)
             return *child;
     }
     throw ("child not exist");
+}
+
+int Tree::GetDepth() {
+    return depth;
+}
+
+void Tree::SetDepth(int newDepth) {
+     depth = newDepth;
 }
 
 Tree * Tree::clone() const{}
