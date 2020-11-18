@@ -14,6 +14,7 @@ Tree::~Tree()
 Tree::Tree(int rootLabel) {
     this->node = rootLabel;
     this->children = vector<Tree*>();
+    depth = 0;
 }
 Tree * Tree::createTree(const Session &session, int rootLabel) {
     TreeType type = session.getTreeType();
@@ -33,11 +34,13 @@ Tree::Tree(const Tree& other)
     {
         children.push_back(child->clone());
     }
+    depth = other.depth;
 }
 //move constructor
 Tree::Tree(Tree&& other){
     this->node=other.node;
     this->children=other.children;
+    depth = other.depth;
 }
 
 int Tree::GetNode()const{
@@ -68,7 +71,7 @@ const Tree& Tree::getChild(int num)
     }
 }
 
-int Tree::GetDepth() {
+int Tree::GetDepth() const{
     return depth;
 }
 

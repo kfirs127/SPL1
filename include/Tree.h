@@ -21,7 +21,7 @@ public:
     virtual int traceTree()=0;
     int GetNode() const;
     std::vector<Tree*> GetChildren() const;
-    int GetDepth();
+    int GetDepth() const;
     void SetDepth(int newDepth);
 private:
     int node;
