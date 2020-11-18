@@ -42,7 +42,7 @@ int Tree::GetNode()const{
     return node;
 }
 //copy operator
-Tree & Tree::operator=(const Tree &other) {
+Tree& Tree::operator=(const Tree &other) {
         if(this==&other){
 
             return *this;
@@ -62,7 +62,9 @@ Tree& Tree::operator=(Tree&& other)
     this->node=other.GetNode();
     for(auto& child:other.GetChildren())
         addChild(child);
-    other.clean();
+    for(auto & child: other.children){
+        child= nullptr;
+    }
 }
 void Tree::addChild(const Tree &child) {
     children.push_back(child.clone());
