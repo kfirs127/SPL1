@@ -19,7 +19,7 @@ Tree::Tree(int rootLabel) {
 Tree * Tree::createTree(const Session &session, int rootLabel) {
     TreeType type = session.getTreeType();
     if(type == Cycle){
-        return new CycleTree(rootLabel,0);
+        return new CycleTree(rootLabel,session.GetCountCycle());
     }
     else if(type == MaxRank){
         return new MaxRankTree(rootLabel);
