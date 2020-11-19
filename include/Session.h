@@ -38,7 +38,7 @@ public:
     std::vector<std::vector<int>> getEdges();
     std::queue<int> getInfected();
     Graph getGragh();
-    int GetCountCycle();
+     int GetCountCycle()const;
     bool isInfected(int node);
 
 private:

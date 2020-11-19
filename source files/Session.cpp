@@ -139,7 +139,7 @@ std::vector<std::vector<int>> Session::getEdges() {
     return g.GetEdges();
 }
 
-int Session::GetCountCycle() {
+ int Session::GetCountCycle() const {
     return countCycle;
 }
 
