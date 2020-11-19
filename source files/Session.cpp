@@ -95,10 +95,10 @@ const Session & Session::operator=(Session &&other){ // move assignment operator
 
 
 void Session::simulate() {
-    Session session = *new Session("");
-    session.setGraph(g);
     for(auto elem : agents){
-        elem->act(session);
+        elem->act(*this);
+        if(infected.empty()) break;
+        else if(infected.size() == g.GetEdges().size()) break;
     }
 }
 
@@ -124,8 +124,6 @@ int Session::dequeueInfected() {
 TreeType Session::getTreeType() const {
     return treeType;
 }
-
-
 
 std::queue<int> Session::getInfected() {
     return infected;

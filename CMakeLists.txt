@@ -19,4 +19,4 @@ add_executable(SPL1
         "source files/RootTree.cpp"
         "source files/Session.cpp"
         "source files/Tree.cpp"
-        main.cpp)
+        )

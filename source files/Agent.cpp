@@ -9,8 +9,6 @@ using namespace std;
 // Agents
 Agent::Agent(){}
 
-Agent::Agent(const Agent &other){}
-
 void Agent::act(Session &session){}
 
 Agent * Agent::clone() const{}
