@@ -13,24 +13,10 @@
           </excludedPaths>
         </serverdata>
       </paths>
-      <paths name="Remote Host (61ae1bcf-4845-4632-b8b3-2bee0bb70a58)">
+      <paths name="Remote Host (65b3a481-f2cf-4476-a547-f6f93aebcf33)">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Remote Host (956adac2-f049-4d30-a611-b7633bb553ae)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Remote Host (b274676e-7998-4ef1-9608-fb238e7eac2d)">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/tmp/tmp.hsnQqt86lL" local="$PROJECT_DIR$" />
+            <mapping deploy="/tmp/SPL1" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />

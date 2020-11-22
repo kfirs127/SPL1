@@ -13,6 +13,6 @@ add_executable(SPL1
         include/Tree.h
         "source files/Agent.cpp"
         "source files/Graph.cpp"
+        "source files/main.cpp"
         "source files/Session.cpp"
-        "source files/Tree.cpp"
-        "source files/main.cpp")
+        "source files/Tree.cpp")
