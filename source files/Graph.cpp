@@ -1,5 +1,6 @@
-#include "../include/Graph.h"
-#include "../include/Tree.h"
+#include "Graph.h"
+#include "Tree.h"
+#include "Session.h"
 #include <vector>
 #include <queue>
 
@@ -35,7 +36,7 @@ Tree * Graph::BFS(Session &session, int sorce){
     IN[sorce] = true;
     while(!nodes.empty()) {
         nodes.pop();
-        Graph tempGraph = session.getGragh();
+        Graph tempGraph = session.getGraph();
         neighbors = tempGraph.edgesOf(tree->GetNode());
         for (int neighbor : neighbors) {
             Tree *neighborTree;

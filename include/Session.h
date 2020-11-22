@@ -5,10 +5,10 @@
 #ifndef SESSION_H_
 #define SESSION_H_
 
+#include "Graph.h"
 #include <vector>
 #include <string>
 #include <queue>
-#include "../include/Graph.h"
 
 class Agent;
 
@@ -37,9 +37,10 @@ public:
 
     std::vector<std::vector<int>> getEdges();
     std::queue<int> getInfected();
-    Graph getGragh();
-     int GetCountCycle()const;
+    Graph getGraph() const;
+    int GetCountCycle()const;
     bool isInfected(int node);
+    bool toContinue();
 
 private:
     Graph g;

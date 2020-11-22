@@ -9,6 +9,8 @@ public:
     Agent();
     virtual void act(Session& session)=0;
     virtual Agent* clone() const =0;
+    virtual int nodeAgent() const = 0;
+    virtual char getType() const = 0;
 };
 
 class ContactTracer: public Agent{
@@ -16,6 +18,8 @@ public:
     ContactTracer();
     virtual void act(Session& session);
     virtual Agent* clone() const;
+    virtual int nodeAgent() const;
+    virtual char getType() const;
 };
 
 
@@ -24,6 +28,8 @@ public:
     Virus(int nodeInd);
     virtual void act(Session& session);
     virtual Agent* clone() const;
+    virtual int nodeAgent() const;
+    virtual char getType() const;
 
 private:
     const int nodeInd;

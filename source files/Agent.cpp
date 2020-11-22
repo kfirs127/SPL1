@@ -1,6 +1,6 @@
-#include "../include/Agent.h"
-#include "../include/Session.h"
-#include "../include/Tree.h"
+#include "Agent.h"
+#include "Session.h"
+#include "Tree.h"
 #include <vector>
 #include <iostream>
 
@@ -37,6 +37,13 @@ Agent * ContactTracer::clone() const {
     return new ContactTracer(*this);
 }
 
+int ContactTracer::nodeAgent() const {
+    return -1;
+}
+
+char ContactTracer::getType() const {
+    return 'C';
+}
 
 // Virus
 Virus::Virus(int nodeInd):nodeInd(nodeInd){}
@@ -62,4 +69,12 @@ void Virus::act(Session &session){
 
 Agent * Virus::clone() const {
     return new Virus(*this);
+}
+
+int Virus::nodeAgent() const {
+    return nodeInd;
+}
+
+char Virus::getType() const {
+    return 'V';
 }

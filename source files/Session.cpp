@@ -1,15 +1,15 @@
-#include "../include/Session.h"
-#include "../include/Graph.h"
-#include "../include/Tree.h"
-#include "../include/json.hpp"
-#include "../include/Agent.h"
+#include "Session.h"
+#include "json.hpp"
+#include "Agent.h"
+#include "Graph.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <queue>
 #include <string>
+#include <iterator>
 
-using json=nlohmann::json;
+using json = nlohmann::json;
 using namespace std;
 
 Session::Session(const std::string &path):g(),treeType(),agents(),infected(),countCycle(){
@@ -21,17 +21,15 @@ Session::Session(const std::string &path):g(),treeType(),agents(),infected(),cou
     treeType = j["tree"];
     Session::infected = queue<int>();
     countCycle = 1;
-    for(auto& elem:j["agents"])
-     {
-        if(elem[0] == "C"){
-            Agent* agent = new ContactTracer();
+    for(auto& elem:j["agents"]) {
+        if (elem[0] == "C") {
+            Agent *agent = new ContactTracer();
+            agents.push_back(agent);
+        } else {
+            Agent *agent = new Virus(elem[1]);
             agents.push_back(agent);
         }
-        else{
-            Agent* agent = new Virus(elem[1]);
-            agents.push_back(agent);
-        }
-     }
+    }
 }
 
 Session::~Session() {  //destructor.
@@ -95,18 +93,37 @@ const Session & Session::operator=(Session &&other){ // move assignment operator
 
 
 void Session::simulate() {
-    for(auto elem : agents){
-        elem->act(*this);
-        if(infected.empty()) break;
-        else if(infected.size() == g.GetEdges().size()) break;
+    while ((countCycle==0) || toContinue()) {
+        std::vector<Agent*> tempAgents;
+        tempAgents = agents;
+        for (auto elem : tempAgents) {
+            elem->act(*this);
+        }
+        countCycle++;
     }
+    json j;
+    std::vector<std::vector<int>> edges;
+    for (int i = 0; i < this->g.GetEdges().size() ; ++i) {
+        vector<int> neighbors = g.edgesOf(i);
+        edges.push_back(neighbors);
+    }
+    j["graph"]=edges;
+    vector <int> areInfected;
+    for (Agent* a : agents) {
+        if (a->getType() == 'V')
+            areInfected.push_back(a->nodeAgent());
+    }
+    j["infected"] = areInfected;
+
+    ofstream i("./output.json");
+    i<<j;
 }
 
 void Session::addAgent(const Agent &agent){
     agents.push_back(agent.clone());
 }
 
-void Session::setGraph(const Graph &graph) {
+void Session::setGraph(const Graph& graph) {
     g = graph;
 }
 
@@ -129,7 +146,7 @@ std::queue<int> Session::getInfected() {
     return infected;
 }
 
-Graph Session::getGragh() {
+Graph Session::getGraph()const{
     return g;
 }
 
@@ -142,5 +159,20 @@ std::vector<std::vector<int>> Session::getEdges() {
 }
 
 bool Session::isInfected(int node) {
-    return std::find(this->infected.front(), this->infected.back(), node);
+    for(int i = 0 ; i < infected.size() ; i++){
+        int temp = infected.front();
+        if(temp == node) return true;
+    }
+    return false;
+}
+
+bool Session::toContinue() {
+    for (int i = 1; i < g.GetEdges().size(); i++) {
+        if (g.isInfected(i) == 1) return true;
+        for (int j = 1; j < g.GetEdges().size() ; j++) {
+            vector<int> neighbor = g.edgesOf(i);
+            if ((neighbor[j] == 1) & (g.isInfected(j) != 0)) return true;
+        }
+    }
+    return false;
 }
