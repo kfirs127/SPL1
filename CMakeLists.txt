@@ -11,8 +11,8 @@ add_executable(SPL1
         include/json.hpp
         include/Session.h
         include/Tree.h
-        "source files/Agent.cpp"
-        "source files/Graph.cpp"
-        "source files/main.cpp"
-        "source files/Session.cpp"
-        "source files/Tree.cpp")
+        src/Agent.cpp
+        src/Graph.cpp
+        src/main.cpp
+        src/Session.cpp
+        src/Tree.cpp)

@@ -1,8 +1,8 @@
 #include "Session.h"
-#include "json.hpp"
+#include "../include/json.hpp"
 #include "Agent.h"
 #include "Graph.h"
-#include <iostream>
+#include "iostream"
 #include <fstream>
 #include <vector>
 #include <queue>
@@ -13,12 +13,17 @@ using json = nlohmann::json;
 using namespace std;
 
 Session::Session(const std::string &path):g(),treeType(),agents(),infected(),countCycle(){
-    ifstream file(path);
-    json j;
-    file >> j;
-    vector<pair<string , int>> JA = j["agents"];
-    g = Graph(j["graphs"]);
-    treeType = j["tree"];
+    std::ifstream file(path);
+    json j = json::parse(file);
+    std::vector< std::vector<int>> graph = j["graph"];
+    g = Graph(graph);
+    std::string tree =j["tree"];
+    if(tree=="R")
+        treeType=Root;
+    if (tree=="M")
+        treeType=MaxRank;
+    else
+        treeType=Cycle;
     Session::infected = queue<int>();
     countCycle = 1;
     for(auto& elem:j["agents"]) {

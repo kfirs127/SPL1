@@ -3,14 +3,22 @@
 #include "Session.h"
 #include <vector>
 #include <queue>
+#include "iostream"
+#include <fstream>
 
 using namespace std;
 
 Graph::Graph(){}
 
 Graph::Graph(std::vector<std::vector<int>> matrix) {
-    this->edges = matrix;
-    for(int i = 0 ; matrix.size() ; i++){
+    for(int i = 0 ; i<matrix.size() ; i++){
+        vector <int> toAdd;
+        for(int j = 0 ; j<matrix[0].size() ; j++){
+            toAdd.push_back( matrix[i][j]);
+        }
+        edges.push_back(toAdd);
+    }
+    for(int i = 0 ; i<matrix.size() ; i++){
         Inodes.push_back(false);
     }
 }
