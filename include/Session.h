@@ -41,6 +41,8 @@ public:
     int GetCountCycle()const;
     bool isInfected(int node);
     bool toContinue();
+    void updateInfected();
+    void addInfected(int inf);
 
 private:
     Graph g;
@@ -48,6 +50,7 @@ private:
     std::vector<Agent*>agents;
     std::queue<int> infected;
     int countCycle;
+    std::vector<int> toAdd;
 };
 
 #endif

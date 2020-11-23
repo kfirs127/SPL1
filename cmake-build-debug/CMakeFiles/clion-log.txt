@@ -1,1 +1,4 @@
-CMake executable not found: /usr/bin/cmake Configure
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /tmp/SPL1
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/SPL1/cmake-build-debug

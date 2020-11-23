@@ -15,6 +15,7 @@ using namespace std;
 Session::Session(const std::string &path):g(),treeType(),agents(),infected(),countCycle(0){
     std::ifstream file(path);
     json j = json::parse(file);
+    cout<<j<<endl;
     std::vector< std::vector<int>> graph = j["graph"];
     g = Graph(graph);
     std::string tree =j["tree"];
@@ -107,6 +108,7 @@ void Session::simulate() {
         }
         cout<<"stage "<<countCycle<<endl;
         countCycle++;
+        updateInfected();
     }
     json j;
     std::vector<std::vector<int>> edges;
@@ -138,13 +140,17 @@ void Session::setGraph(const Graph& graph) {
 void Session::enqueueInfected(int Vnode) {
     infected.push(Vnode);
 }
-
+void Session::addInfected(int inf) {
+    toAdd.push_back(inf);
+}
 int Session::dequeueInfected() {
     if(infected.empty()) return -1;
     int temp = infected.front();
     infected.pop();
+    cout<<"deququInfected. returned: " <<temp <<endl;
     return temp;
 }
+
 
 TreeType Session::getTreeType() const {
     return treeType;
@@ -157,7 +163,14 @@ std::queue<int> Session::getInfected() {
 Graph Session::getGraph()const{
     return g;
 }
+void Session::updateInfected() {
+    for(int i=0;i<toAdd.size();i++)
+    {
+        addAgent(Virus(toAdd[i]));
+        toAdd.erase(toAdd.begin()+i);
+    }
 
+}
 std::vector<std::vector<int>> Session::getEdges() {
     return g.GetEdges();
 }
