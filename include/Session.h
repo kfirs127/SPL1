@@ -50,7 +50,7 @@ private:
     std::vector<Agent*>agents;
     std::queue<int> infected;
     int countCycle;
-    std::vector<int> toAdd;
+    std::queue<int> toAdd;
 };
 
 #endif

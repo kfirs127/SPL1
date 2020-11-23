@@ -102,13 +102,18 @@ const Session & Session::operator=(Session &&other){ // move assignment operator
 void Session::simulate() {
     while (countCycle==0 || toContinue()) {
         cout<<"start simulate "<< countCycle<<endl;
-        vector<Agent*> tempAgents = agents;
-        for (auto elem : tempAgents) {
-            elem->act(*this);
-        }
+       //vector<Agent*> tempAgents = agents;
+       int numOfAgents=agents.size();
+       for(int i=0;i<numOfAgents;i++)
+       {
+           cout<<"start act"<<endl;
+           agents[i]->act(*this);
+           cout<<"finish act"<<endl;
+       }
         cout<<"stage "<<countCycle<<endl;
         countCycle++;
         updateInfected();
+
     }
     json j;
     std::vector<std::vector<int>> edges;
@@ -123,8 +128,7 @@ void Session::simulate() {
             areInfected.push_back(a->nodeAgent());
     }
     j["infected"] = areInfected;
-
-    ofstream i("./output.json");
+    ofstream i("../output.json");
     i<<j;
     cout<<j<<endl;
 }
@@ -141,7 +145,7 @@ void Session::enqueueInfected(int Vnode) {
     infected.push(Vnode);
 }
 void Session::addInfected(int inf) {
-    toAdd.push_back(inf);
+    toAdd.push(inf);
 }
 int Session::dequeueInfected() {
     if(infected.empty()) return -1;
@@ -166,8 +170,9 @@ Graph Session::getGraph()const{
 void Session::updateInfected() {
     for(int i=0;i<toAdd.size();i++)
     {
-        addAgent(Virus(toAdd[i]));
-        toAdd.erase(toAdd.begin()+i);
+        addAgent(Virus(toAdd.front()));
+        enqueueInfected(toAdd.front());
+        toAdd.pop();
     }
 
 }
@@ -191,42 +196,27 @@ bool Session::isInfected(int node) {
 }
 
 bool Session::toContinue() {
-  /*  bool ret = false;
-    for (int i = 0; i < g.GetEdges().size(); i++) {
-        if (g.isInfected(i) == 1) {
-            ret = true;
-        }
-        if (g.isInfected(i) == 0) {
-            vector<int> neighbor = g.edgesOf(i);
-            for (int j = 0; j < g.GetEdges().size(); j++) {
-                if ((neighbor[j] == 1) && (g.isInfected(j) != 0)) {
-                    ret = true;
-                }
-            }
-        }
-    }
-    cout << "toContinue= " << ret << endl;
-    return ret;*/
-    bool output=false;
+    bool ret=false;
     //each node
-    for (int i = 0; (i < g.GetEdges().size()) & !output; ++i) {
+    for (int i = 0; (i < g.GetEdges().size()) & !ret; ++i) {
         if (g.isInfected(i) == 1)
         {
-            output=true;
+            ret=true;
             break;
         }
 
         if(g.isInfected(i) == 0) {
-            //each neighbor
+
             for (int j = 0; j <g.GetEdges().size(); ++j) {
                 vector<int> neighbor = g.GetEdges()[i];
                 if ((neighbor[j]==1) & (g.isInfected(j) != 0))
                 {
-                    output=true;
+                    ret=true;
                     break;
                 }
             }
         }
     }
-    return output;
+    cout <<ret<<endl;
+    return ret;
 }

@@ -31,32 +31,33 @@ bool Graph::isInfected(int nodeInd){
     return Inodes[nodeInd];
 }
 
-Tree * Graph::BFS(Session &session, int sorce){
-    vector<int> neighbors = session.getEdges()[sorce];
-    if(neighbors.empty()) return Tree::createTree(session , sorce);
-    Tree* tree = Tree::createTree(session , sorce);
+Tree * Graph::BFS(const Session &session, int rootlabel){
+
+    vector<int> neighbors = edges[rootlabel];
+    if(neighbors.empty()) return getTree(session,rootlabel);
+    Tree* tree = getTree(session,rootlabel);
     queue<Tree*> nodes = queue<Tree*>();
-    bool IN[session.getInfected().size()];
+    bool IN[edges.size()];
     for(int elem : IN){
         IN[elem] = false;
     }
     nodes.push(tree);
-    IN[sorce] = true;
+    IN[rootlabel] = true;
+    Tree * temp;
     while(!nodes.empty()) {
+        temp=nodes.front();
         nodes.pop();
-        Graph tempGraph = session.getGraph();
-        neighbors = tempGraph.edgesOf(tree->GetNode());
+        neighbors = edgesOf(temp->GetNode());
         for (int neighbor : neighbors) {
             Tree *neighborTree;
             if (!IN[neighbor]) {
-                neighborTree = Tree::createTree(session, neighbor);
+                neighborTree = getTree(session, neighbor);
                 neighborTree->SetDepth(tree->GetDepth() + 1);
                 nodes.push(neighborTree);
                 tree->addChild(neighborTree);
-                IN[neighbor] = tree;
+                IN[neighbor] = true;
             }
         }
-
     }
     return tree;
 }
@@ -71,4 +72,13 @@ std::vector<int> Graph::edgesOf(int node) {
            toReturn.push_back(check);
     }
     return toReturn;
+}
+Tree * Graph::getTree(const Session &session, int source) {
+    TreeType type = session.getTreeType();
+    if(type == Cycle)
+        return   new CycleTree(source,session.GetCountCycle()) ;
+    else if(type == MaxRank){
+        return   new MaxRankTree(source);
+    }
+    return new RootTree(source);
 }

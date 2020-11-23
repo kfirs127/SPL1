@@ -17,13 +17,8 @@ Tree::Tree(int rootLabel) {
     depth = 0;
 }
 Tree * Tree::createTree(const Session& session, int rootLabel) {
-    TreeType type = session.getTreeType();
-    if(type == Cycle){
-        return new CycleTree(rootLabel,session.GetCountCycle());}
-    else if(type == MaxRank){
-        return new MaxRankTree(rootLabel);
-    }
-    return new RootTree(rootLabel);
+
+    return session.getGraph().BFS(session,rootLabel);
 }
 //copy constructor
 Tree::Tree(const Tree& other)

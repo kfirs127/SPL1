@@ -10,9 +10,11 @@ public:
 
     void infectNode(int nodeInd);
     bool isInfected(int nodeInd);
-    Tree* BFS(Session& session, int sorce);
+    Tree* BFS(const Session& session,int rootlabel);
     std::vector<std::vector<int>> GetEdges();
     std::vector<int> edgesOf(int node);
+    Tree* getTree(const Session & session,int source);
+
 
 private:
     std::vector<std::vector<int>> edges;
