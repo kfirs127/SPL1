@@ -51,17 +51,11 @@ Virus::Virus(int nodeInd):nodeInd(nodeInd){}
 void Virus::act(Session &session) {
     vector<vector<int>> edges = session.getEdges();
     cout << "start Virus :act " << endl;
-    bool check = false;
-    int neighbor = -1;
-    for (int i = 0; i < edges[nodeInd].size() && !check; i++) {
+    for (int i = 0; i < edges[nodeInd].size() ; i++) {
         if (edges[nodeInd][i] == 1 && !session.isInfected(i)) {
-            cout << "virused " << nodeInd << " infected " << i << endl;
-            neighbor = i;
-            check = true;
+            session.addInfected(i);
+            break;
         }
-    }
-    if (check) {
-        session.addInfected(neighbor);
     }
 }
 

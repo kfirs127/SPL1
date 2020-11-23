@@ -15,6 +15,7 @@ public:
     std::vector<int> edgesOf(int node);
     Tree* getTree(const Session & session,int source);
     std::vector<std::vector<int>>* getPointerEdges();
+    int getSize();
 
 
 private:

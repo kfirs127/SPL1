@@ -11,14 +11,12 @@ using namespace std;
 Graph::Graph(){}
 
 Graph::Graph(std::vector<std::vector<int>> matrix) {
-    for(int i = 0 ; i<matrix.size() ; i++){
+    for(int i = 0 ; i < matrix.size() ; i++){
         vector <int> toAdd;
-        for(int j = 0 ; j<matrix[0].size() ; j++){
-            toAdd.push_back( matrix[i][j]);
+        for(int j = 0 ; j < matrix[i].size() ; j++){
+            toAdd.push_back(matrix[i][j]);
         }
         edges.push_back(toAdd);
-    }
-    for(int i = 0 ; i<matrix.size() ; i++){
         Inodes.push_back(false);
     }
 }
@@ -85,4 +83,8 @@ Tree * Graph::getTree(const Session &session, int source) {
 
 std::vector<std::vector<int>> * Graph::getPointerEdges() {
     return &edges;
+}
+
+int Graph::getSize() {
+    return edges.size();
 }

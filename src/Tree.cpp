@@ -142,7 +142,7 @@ int RootTree::traceTree() {
 }
 RootTree::~RootTree() {}
 Tree * RootTree::clone() const{
-    RootTree* tree=new RootTree(this->GetNode());
+    RootTree* tree = new RootTree(this->GetNode());
     for(auto& child: this->GetChildren())
     {
         tree->addChild(child->clone());
