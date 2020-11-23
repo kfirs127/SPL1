@@ -102,7 +102,6 @@ const Session & Session::operator=(Session &&other){ // move assignment operator
 void Session::simulate() {
     while (countCycle==0 || toContinue()) {
         cout<<"start simulate "<< countCycle<<endl;
-       //vector<Agent*> tempAgents = agents;
        int numOfAgents=agents.size();
        for(int i=0;i<numOfAgents;i++)
        {
@@ -117,11 +116,11 @@ void Session::simulate() {
     }
     json j;
     std::vector<std::vector<int>> edges;
-    for (int i = 0; i < this->g.GetEdges().size() ; ++i) {
+    for (int i = 0; i < g.GetEdges().size() ; ++i) {
         vector<int> neighbors = g.edgesOf(i);
         edges.push_back(neighbors);
     }
-    j["graph"]=edges;
+    j["graph"] = edges;
     vector <int> areInfected;
     for (Agent* a : agents) {
         if (a->getType() == 'V')
@@ -146,6 +145,7 @@ void Session::enqueueInfected(int Vnode) {
 }
 void Session::addInfected(int inf) {
     toAdd.push(inf);
+    infected.push(inf);
 }
 int Session::dequeueInfected() {
     if(infected.empty()) return -1;
@@ -197,8 +197,7 @@ bool Session::isInfected(int node) {
 
 bool Session::toContinue() {
     bool ret=false;
-    //each node
-    for (int i = 0; (i < g.GetEdges().size()) & !ret; ++i) {
+    for (int i = 0; i < g.GetEdges().size() && !ret; ++i) {
         if (g.isInfected(i) == 1)
         {
             ret=true;
@@ -219,4 +218,8 @@ bool Session::toContinue() {
     }
     cout <<ret<<endl;
     return ret;
+}
+
+std::vector<std::vector<int>> * Session::getPointerEdges() {
+    return g.getPointerEdges();
 }

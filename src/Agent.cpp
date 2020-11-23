@@ -18,25 +18,18 @@ Agent * Agent::clone() const{}
 ContactTracer::ContactTracer(){}
 
 void ContactTracer::act(Session &session) {
-    vector<vector<int>> edges = session.getEdges();
+    vector<vector<int>>* edges = session.getPointerEdges();
     int root = session.dequeueInfected();
     if(root != -1){
         Tree *t = Tree::createTree(session , root);
         int toRemove = t->traceTree();
-        cout<<"remove edges to: "<<toRemove <<endl;
-        for(int i = 0 ; i < edges[toRemove].size() ; i++){
-            edges[toRemove][i] = 0;
+        for(auto & elem : (*edges)[toRemove]){
+            elem = 0;
         }
-        for(int i = 0 ; i < edges.size() ; i++){
-            edges[i][toRemove] = 0;
+        for(int i = 0 ; i < edges->size() ; i++){
+            (*edges)[i][toRemove] = 0;
         }
-        delete  t;
-        for(int i=0;i<edges.size();i++){
-            for(int j=0;j<edges.size();j++) {
-                cout<<edges[i][j];
-            }
-            cout<<endl;
-        }
+        delete t;
     }
 }
 

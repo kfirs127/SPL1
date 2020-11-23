@@ -82,3 +82,7 @@ Tree * Graph::getTree(const Session &session, int source) {
     }
     return new RootTree(source);
 }
+
+std::vector<std::vector<int>> * Graph::getPointerEdges() {
+    return &edges;
+}

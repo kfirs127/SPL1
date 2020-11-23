@@ -43,6 +43,7 @@ public:
     bool toContinue();
     void updateInfected();
     void addInfected(int inf);
+    std::vector<std::vector<int>>* getPointerEdges();
 
 private:
     Graph g;
