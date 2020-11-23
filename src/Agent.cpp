@@ -20,6 +20,7 @@ ContactTracer::ContactTracer(){}
 void ContactTracer::act(Session &session) {
     vector<vector<int>> edges = session.getEdges();
     int root = session.dequeueInfected();
+    cout<<
     if(root != -1){
         Tree *t = Tree::createTree(session , root);
         int toRemove = t->traceTree();
@@ -29,7 +30,7 @@ void ContactTracer::act(Session &session) {
         for(int i = 0 ; i < edges.size() ; i++){
             edges[i][toRemove] = 0;
         }
-        t->clean();
+        delete  t;
     }
 }
 

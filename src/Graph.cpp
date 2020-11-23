@@ -68,9 +68,7 @@ std::vector<std::vector<int>> Graph::GetEdges() {
 std::vector<int> Graph::edgesOf(int node) {
     vector<int> toReturn = vector<int>();
     for(int check : edges[node]){
-       if(edges[node][check]){
            toReturn.push_back(check);
-       }
     }
     return toReturn;
 }
