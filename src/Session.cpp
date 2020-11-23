@@ -25,7 +25,7 @@ Session::Session(const std::string &path):g(),treeType(),agents(),infected(),cou
     else
         treeType=Cycle;
     Session::infected = queue<int>();
-    countCycle = 1;
+    countCycle = 0;
     for(auto& elem:j["agents"]) {
         if (elem[0] == "C") {
             Agent *agent = new ContactTracer();
@@ -98,7 +98,8 @@ const Session & Session::operator=(Session &&other){ // move assignment operator
 
 
 void Session::simulate() {
-    while ((countCycle==0) || toContinue()) {
+    cout<<"start simulate"<<endl;
+    while ((countCycle>=0) || toContinue()) {
         std::vector<Agent*> tempAgents;
         tempAgents = agents;
         for (auto elem : tempAgents) {
@@ -106,6 +107,7 @@ void Session::simulate() {
         }
         countCycle++;
     }
+    cout<<" simulate stage 1"<<endl;
     json j;
     std::vector<std::vector<int>> edges;
     for (int i = 0; i < this->g.GetEdges().size() ; ++i) {
@@ -122,6 +124,7 @@ void Session::simulate() {
 
     ofstream i("./output.json");
     i<<j;
+    cout<<"end simulate"<<endl;
 }
 
 void Session::addAgent(const Agent &agent){
