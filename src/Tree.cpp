@@ -1,6 +1,7 @@
 #include "Tree.h"
 #include "Session.h"
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 //Destructor
@@ -108,7 +109,9 @@ std::vector<Tree*> CycleTree::getChildren() const {
 
 //MaxRank
 MaxRankTree::MaxRankTree(int rootLabel):Tree((rootLabel)){}
+
 MaxRankTree::~MaxRankTree() {}
+
 Tree * MaxRankTree::clone() const {
     MaxRankTree* tree = new MaxRankTree(this->GetNode());
     for(auto& child : this->GetChildren())
@@ -123,14 +126,13 @@ int MaxRankTree::traceTree() {
 
 }
 int MaxRankTree::RetMax(Tree *tree) {
-    int ret=tree->GetNode();
-    if(tree->GetChildren().empty())
-        return ret;
+    int ret = tree->GetNode();
+    if(tree->GetChildren().empty()) return ret;
     for(Tree* tree1: tree->GetChildren()){
-        if(MaxRankTree::RetMax(tree1)>ret)
-            ret=MaxRankTree::RetMax(tree1);
+        if(MaxRankTree::RetMax(tree1) > ret)
+            ret = MaxRankTree::RetMax(tree1);
     }
-return ret;
+ return ret;
 }
 void MaxRankTree::clean() const{
     for(int i = 0 ; i < GetChildren().size()  ; i++){
@@ -144,6 +146,7 @@ RootTree::RootTree(int rootLabel):Tree(rootLabel){}
 int RootTree::traceTree() {
     return this->GetNode();
 }
+
 RootTree::~RootTree() {}
 Tree * RootTree::clone() const{
     RootTree* tree = new RootTree(this->GetNode());
