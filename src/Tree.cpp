@@ -1,7 +1,6 @@
 #include "Tree.h"
 #include "Session.h"
 #include <iostream>
-#include <math.h>
 using namespace std;
 
 //Destructor
@@ -126,13 +125,16 @@ int MaxRankTree::traceTree() {
 
 }
 int MaxRankTree::RetMax(Tree *tree) {
-    int ret = tree->GetNode();
-    if(tree->GetChildren().empty()) return ret;
-    for(Tree* tree1: tree->GetChildren()){
-        if(MaxRankTree::RetMax(tree1) > ret)
-            ret = MaxRankTree::RetMax(tree1);
+    if(tree->GetChildren().empty()) return tree->GetNode();
+    int ret = tree->GetChildren().size();
+    int toReturn = tree->GetNode();
+    for(int i = 0 ; i < tree->GetChildren().size() ; i++){
+        if(tree->GetChildren()[i]->GetChildren().size() > ret) {
+            ret = tree->GetChildren()[i]->GetChildren().size();
+            toReturn = i;
+        }
     }
- return ret;
+ return toReturn;
 }
 void MaxRankTree::clean() const{
     for(int i = 0 ; i < GetChildren().size()  ; i++){
