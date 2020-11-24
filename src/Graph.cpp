@@ -30,11 +30,11 @@ bool Graph::isInfected(int nodeInd){
 }
 
 Tree * Graph::BFS(const Session &session, int rootlabel){
-    cout<<"start BFS" << endl;
+  //  cout<<"start BFS" << endl;
     vector<int> neighbors = edgesOf(rootlabel);
     if(neighbors.empty()) return getTree(session,rootlabel);
     Tree* tree = getTree(session,rootlabel);
-    cout<< "tree root" << tree->GetNode() << endl;
+   // cout<< "tree root" << tree->GetNode() << endl;
     queue<Tree*> nodes = queue<Tree*>();
     vector<bool> IN = vector<bool>(edges.size());
    for(int j = 0 ; j < IN.size() ; j++){
@@ -46,13 +46,13 @@ Tree * Graph::BFS(const Session &session, int rootlabel){
     while(!nodes.empty()) {
         temp=nodes.front();
         nodes.pop();
-        cout<< "tree node: " << temp->GetNode() << endl;
+      //  cout<< "tree node: " << temp->GetNode() << endl;
         neighbors = edgesOf(temp->GetNode());
-        cout<<"root: "<< temp->GetNode()<<endl;
+    //    cout<<"root: "<< temp->GetNode()<<endl;
         for (int neighbor : neighbors) {
             Tree *neighborTree;
             if (!IN[neighbor]) {
-                cout<< neighbor<<" ";
+           //     cout<< neighbor<<" ";
                 neighborTree = getTree(session, neighbor);
                 neighborTree->SetDepth(tree->GetDepth() + 1);
                 nodes.push(neighborTree);
@@ -60,9 +60,9 @@ Tree * Graph::BFS(const Session &session, int rootlabel){
                 tree->addChild(neighborTree);
             }
         }
-        cout<<endl;
+     //   cout<<endl;
     }
-    cout<<"end BFS" << endl;
+  //  cout<<"end BFS" << endl;
     for(Tree* son : tree->GetChildren()){
     }
     return tree;
@@ -98,5 +98,8 @@ std::vector<std::vector<int>> * Graph::getPointerEdges() {
 int Graph::getSize() {
     return edges.size();
 }
-void printTree(Tree* tree){
+
+void Graph::SetInodes(int node) {
+    Inodes[node] = false;
 }
+

@@ -18,7 +18,7 @@ Agent * Agent::clone() const{}
 ContactTracer::ContactTracer(){}
 
 void ContactTracer::act(Session &session) {
-    cout << "start ContactTracer :act " << endl;
+  //  cout << "start ContactTracer :act " << endl;
     vector<vector<int>>* edges = session.getPointerEdges();
     int root = session.dequeueInfected();
     if(root != -1){
@@ -30,14 +30,8 @@ void ContactTracer::act(Session &session) {
         for(int i = 0 ; i < edges->size() ; i++){
             (*edges)[i][toRemove] = 0;
         }
+        session.dequeueInfected();
         delete t;
-    }
-    cout << "end ContactTracer :act " << endl;
-    for(int i=0;i<edges->size();i++){
-        for(int j=0;j<edges->size();j++){
-            cout<<session.getEdges()[i][j];
-        }
-        cout<<endl;
     }
 }
 
@@ -58,11 +52,9 @@ Virus::Virus(int nodeInd):nodeInd(nodeInd){}
 
 void Virus::act(Session &session) {
     vector<vector<int>> edges = session.getEdges();
-    cout << "start Virus :act " << endl;
-    for (int i = 0; i < edges[nodeInd].size() ; i++) {
-        if(edges[nodeInd][i] == 1 && !session.isInfected(i)) {
+    for (int i = 0; i < edges[session.getInfected().front()].size() ; i++) {
+        if(edges[session.getInfected().front()][i] == 1 && !session.isInfected(i)) {
             session.addInfected(i);
-            cout << "finish Virus :act " << endl;
             break;
         }
     }
