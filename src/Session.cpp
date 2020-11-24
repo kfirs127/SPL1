@@ -123,11 +123,11 @@ void Session::simulate() {
     vector<int> areInfected;
     for (Agent *agent : agents) {
         if (agent->getType() == 'V') areInfected.push_back(agent->nodeAgent());
+        }
         j["infected"] = areInfected;
         ofstream i("../output.json");
         i << j;
         cout << j << endl;
-    }
 }
 
 void Session::addAgent(const Agent &agent){
@@ -183,11 +183,11 @@ std::vector<std::vector<int>> Session::getEdges() {
 }
 
 bool Session::isInfected(int node) {
-    bool isInfected=false;
+    bool isInfected = false;
     for(int i = 0 ; i < infected.size() ; i++){
         int temp = infected.front();
         infected.pop();
-        if(temp == node) isInfected= true;
+        if(temp == node) isInfected = true;
         infected.push(temp);
     }
     return isInfected;
@@ -196,7 +196,7 @@ bool Session::isInfected(int node) {
 bool Session::toContinue() {
     bool ret=false;
     for (int i = 0; i < g.getSize() ; i++) {
-        if (g.isInfected(i) == 1)
+        if (g.isInfected(i))
         {
             ret=true;
             break;

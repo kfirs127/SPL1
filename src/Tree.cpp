@@ -17,8 +17,8 @@ Tree::Tree(int rootLabel) {
     depth = 0;
 }
 Tree * Tree::createTree(const Session& session, int rootLabel) {
-
-    return session.getGraph().BFS(session,rootLabel);
+    cout<<"start create tree" << endl;
+    return session.getGraph().BFS(session , rootLabel);
 }
 //copy constructor
 Tree::Tree(const Tree& other)

@@ -30,32 +30,37 @@ bool Graph::isInfected(int nodeInd){
 }
 
 Tree * Graph::BFS(const Session &session, int rootlabel){
-
-    vector<int> neighbors = edges[rootlabel];
+    cout<<"start BFS" << endl;
+    vector<int> neighbors = edgesOf(rootlabel);
     if(neighbors.empty()) return getTree(session,rootlabel);
     Tree* tree = getTree(session,rootlabel);
+    cout<< "tree root" << tree->GetNode() << endl;
     queue<Tree*> nodes = queue<Tree*>();
-    bool IN[edges.size()];
-    for(int elem : IN){
-        IN[elem] = false;
-    }
+    vector<bool> IN = vector<bool>(edges.size());
+   for(int j = 0 ; j < IN.size() ; j++){
+       IN[j] = false;
+   }
     nodes.push(tree);
-    IN[rootlabel] = true;
     Tree * temp;
     while(!nodes.empty()) {
         temp=nodes.front();
         nodes.pop();
+        cout<< "tree node: " << temp->GetNode() << endl;
         neighbors = edgesOf(temp->GetNode());
         for (int neighbor : neighbors) {
             Tree *neighborTree;
             if (!IN[neighbor]) {
+                cout<< "add node: " << neighbor << endl;
                 neighborTree = getTree(session, neighbor);
                 neighborTree->SetDepth(tree->GetDepth() + 1);
                 nodes.push(neighborTree);
                 tree->addChild(neighborTree);
-                IN[neighbor] = true;
             }
+            IN[temp->GetNode()]=true;
         }
+    }
+    cout<<"end BFS" << endl;
+    for(Tree* son : tree->GetChildren()){
     }
     return tree;
 }
@@ -66,8 +71,10 @@ std::vector<std::vector<int>> Graph::GetEdges() {
 
 std::vector<int> Graph::edgesOf(int node) {
     vector<int> toReturn = vector<int>();
-    for(int check : edges[node]){
-           toReturn.push_back(check);
+    for(int i = 0 ; i < edges.size() ; i++){
+        if(edges[node][i] == 1) {
+            toReturn.push_back(i);
+        }
     }
     return toReturn;
 }
@@ -87,4 +94,6 @@ std::vector<std::vector<int>> * Graph::getPointerEdges() {
 
 int Graph::getSize() {
     return edges.size();
+}
+void printTree(Tree* tree){
 }
