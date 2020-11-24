@@ -22,6 +22,7 @@ public:
     std::vector<Tree*> GetChildren() const;
     int GetDepth() const;
     void SetDepth(int newDepth);
+    virtual int RetMax(Tree* tree);
 private:
     int node;
     std::vector<Tree*> children;
@@ -49,6 +50,7 @@ public:
     virtual int traceTree();
     virtual Tree* clone() const;
     virtual void clean() const;
+    virtual int RetMax(Tree* tree);
 private:
     int root;
 };

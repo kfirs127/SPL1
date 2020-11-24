@@ -62,6 +62,7 @@ int Tree::traceTree(){}
 std::vector<Tree*> Tree::GetChildren() const {
     return children;
 }
+int Tree::RetMax(Tree *tree) {return -1;}
 
 //CycleTree
 CycleTree::CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(currCycle){}
@@ -109,8 +110,8 @@ std::vector<Tree*> CycleTree::getChildren() const {
 MaxRankTree::MaxRankTree(int rootLabel):Tree((rootLabel)){}
 MaxRankTree::~MaxRankTree() {}
 Tree * MaxRankTree::clone() const {
-    MaxRankTree* tree=new MaxRankTree(this->GetNode());
-    for(auto& child: this->GetChildren())
+    MaxRankTree* tree = new MaxRankTree(this->GetNode());
+    for(auto& child : this->GetChildren())
     {
         tree->addChild(child->clone());
     }
@@ -118,16 +119,19 @@ Tree * MaxRankTree::clone() const {
 }
 
 int MaxRankTree::traceTree() {
-    int x = this->GetChildren().size();
-    for(Tree* child : this->GetChildren())
-    {
-        if(child->traceTree() >x)
-            x = child->traceTree();
-    }
-    return x;
+    return RetMax(this);
 
 }
-
+int MaxRankTree::RetMax(Tree *tree) {
+    int ret=tree->GetNode();
+    if(tree->GetChildren().empty())
+        return ret;
+    for(Tree* tree1: tree->GetChildren()){
+        if(MaxRankTree::RetMax(tree1)>ret)
+            ret=MaxRankTree::RetMax(tree1);
+    }
+return ret;
+}
 void MaxRankTree::clean() const{
     for(int i = 0 ; i < GetChildren().size()  ; i++){
         delete GetChildren().at(i);
