@@ -41,23 +41,26 @@ Tree * Graph::BFS(const Session &session, int rootlabel){
        IN[j] = false;
    }
     nodes.push(tree);
+    IN[tree->GetNode()]=true;
     Tree * temp;
     while(!nodes.empty()) {
         temp=nodes.front();
         nodes.pop();
         cout<< "tree node: " << temp->GetNode() << endl;
         neighbors = edgesOf(temp->GetNode());
+        cout<<"root: "<< temp->GetNode()<<endl;
         for (int neighbor : neighbors) {
             Tree *neighborTree;
             if (!IN[neighbor]) {
-                cout<< "add node: " << neighbor << endl;
+                cout<< neighbor<<" ";
                 neighborTree = getTree(session, neighbor);
                 neighborTree->SetDepth(tree->GetDepth() + 1);
                 nodes.push(neighborTree);
+                IN[neighborTree->GetNode()]=true;
                 tree->addChild(neighborTree);
             }
-            IN[temp->GetNode()]=true;
         }
+        cout<<endl;
     }
     cout<<"end BFS" << endl;
     for(Tree* son : tree->GetChildren()){

@@ -116,7 +116,7 @@ void Session::simulate() {
     json j;
     std::vector<std::vector<int>> edges;
     for (int i = 0; i < g.getSize(); ++i) {
-        vector<int> neighbors = g.edgesOf(i);
+        vector<int> neighbors = g.GetEdges()[i];
         edges.push_back(neighbors);
     }
     j["graph"] = edges;

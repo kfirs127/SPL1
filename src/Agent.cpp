@@ -33,6 +33,12 @@ void ContactTracer::act(Session &session) {
         delete t;
     }
     cout << "end ContactTracer :act " << endl;
+    for(int i=0;i<edges->size();i++){
+        for(int j=0;j<edges->size();j++){
+            cout<<session.getEdges()[i][j];
+        }
+        cout<<endl;
+    }
 }
 
 Agent * ContactTracer::clone() const {
