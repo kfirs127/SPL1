@@ -9,7 +9,6 @@
 using namespace std;
 
 Graph::Graph(){}
-
 Graph::Graph(std::vector<std::vector<int>> matrix) {
     for(int i = 0 ; i < matrix.size() ; i++){
         vector <int> toAdd;
@@ -30,39 +29,38 @@ bool Graph::isInfected(int nodeInd){
 }
 
 Tree * Graph::BFS(const Session &session, int rootlabel){
-  //  cout<<"start BFS" << endl;
+    //cout<<"start BFS" << endl;
     vector<int> neighbors = edgesOf(rootlabel);
     if(neighbors.empty()) return getTree(session,rootlabel);
     Tree* tree = getTree(session,rootlabel);
-   // cout<< "tree root" << tree->GetNode() << endl;
     queue<Tree*> nodes = queue<Tree*>();
-    vector<bool> IN = vector<bool>(edges.size());
-   for(int j = 0 ; j < IN.size() ; j++){
-       IN[j] = false;
-   }
+    vector<bool> IN ;
+    for(int j = 0 ; j < edges.size() ; j++){
+        IN.push_back( false);
+    }
     nodes.push(tree);
     IN[tree->GetNode()]=true;
     Tree * temp;
     while(!nodes.empty()) {
         temp=nodes.front();
         nodes.pop();
-        cout<< "tree node: " << temp->GetNode() << endl;
+     //   cout<< "tree node: " << temp->GetNode() << endl;
         neighbors = edgesOf(temp->GetNode());
         for (int neighbor : neighbors) {
             Tree *neighborTree;
+           // cout<<IN[neighbor] <<" for: "<<neighbor<<endl;
             if (!IN[neighbor]) {
-                cout<< neighbor<<" ";
+            //    cout<< neighbor<<" "<<endl;
                 neighborTree = getTree(session, neighbor);
+             //   cout<<neighborTree->GetNode() <<" size beginnig "<<neighborTree->GetChildren().size()<<endl;
                 neighborTree->SetDepth(tree->GetDepth() + 1);
                 nodes.push(neighborTree);
                 IN[neighborTree->GetNode()]=true;
-                tree->addChild(neighborTree);
+                temp->addChild(neighborTree);
+            //    cout<< temp->GetNode() <<" new size "<<temp->GetChildren().size()<<endl;
             }
         }
-        cout<<endl;
-    }
-  //  cout<<"end BFS" << endl;
-    for(Tree* son : tree->GetChildren()){
+     //   cout<<endl;
     }
     return tree;
 }
@@ -101,4 +99,3 @@ int Graph::getSize() {
 void Graph::SetInodes(int node) {
     Inodes[node] = false;
 }
-

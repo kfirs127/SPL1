@@ -2,7 +2,6 @@
 #define TREE_H_
 
 #include <vector>
-
 class Session;
 
 class Tree{
@@ -23,6 +22,7 @@ public:
     int GetDepth() const;
     void SetDepth(int newDepth);
     virtual int RetMax(Tree* tree,int size);
+    void print();
 private:
     int node;
     std::vector<Tree*> children;

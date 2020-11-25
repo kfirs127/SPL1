@@ -17,7 +17,7 @@ Tree::Tree(int rootLabel) {
     depth = 0;
 }
 Tree * Tree::createTree(const Session& session, int rootLabel) {
- //   cout<<"start create tree" << endl;
+    //   cout<<"start create tree" << endl;
     return session.getGraph().BFS(session , rootLabel);
 }
 //copy constructor
@@ -47,7 +47,7 @@ void Tree::addChild(const Tree &child) {
 
 void Tree::addChild(Tree *child) {
     children.push_back(child);
-    cout<<" added child "<<child->GetNode()<<endl;
+   // cout<<" added child "<<child->GetNode()<<endl;
 }
 
 int Tree::GetDepth() const{
@@ -124,9 +124,9 @@ Tree * MaxRankTree::clone() const {
 
 int MaxRankTree::traceTree() {
     int size =  RetMax(this,this->GetChildren().size());
-   int ret= Find (this,size);
-   //cout<<"will return "<<ret<< " with size of "<< size<<endl;
-   return ret;
+    int ret= Find (this,size);
+   // cout<<"will return "<<ret<< " with size of "<< size<<endl;
+    return ret;
 
 }
 int MaxRankTree::Find(Tree* tree,int size) {
@@ -136,43 +136,31 @@ int MaxRankTree::Find(Tree* tree,int size) {
     }
 }
 int MaxRankTree::RetMax(Tree *tree,int size) {
-    //cout<<"check sizes in root "<<tree->GetNode()<<endl;
+ //   cout<<"check sizes in root "<<tree->GetNode()<<endl;
     if(tree->GetChildren().empty()) {
         return 0;
     }
-        //  int ret = tree->GetChildren()[0]->GetChildren().size();
-        //  int toReturn = tree->GetChildren()[0]->GetNode();
     else{
         int max=tree->GetChildren().size();
-        //cout<<" curr size is "<< max<<endl;
+     //   cout<<" curr size is "<< max<<endl;
         for(Tree* tree1: tree->GetChildren())
-           // cout<<tree1->GetNode()<<" is son of "<<tree->GetNode()<<endl;
-        for(Tree* tree1 : tree->GetChildren()) {
-            //cout<<" for son: "<<tree1->GetNode()<<endl;
-            if(tree1->GetChildren().size()>max) {
-                max = tree1->GetChildren().size();
-              //  cout<<" replace max size to "<<max<< " from son: "<<tree1->GetNode();
+        //   cout<<tree1->GetNode()<< " children num is " <<tree1->GetChildren().size()<<endl;
+            for(Tree* tree1 : tree->GetChildren()) {
+            //   cout<<" for son: "<<tree1->GetNode()<<endl;
+                if(tree1->GetChildren().size()>max) {
+                    max = tree1->GetChildren().size();
+                 //     cout<<" replace max size to "<<max<< " from son: "<<tree1->GetNode()<<endl;
+                }
+                int temp=RetMax(tree1,max);
+            //    cout<<tree1->GetNode()<<" max size is: "<<temp<< endl;
+                if(temp>max) {
+                    max = temp;
+             //         cout<<"max replaced to "<<max<<endl;
+                }
             }
-            int temp=RetMax(tree1,max);
-            //cout<<tree1->GetNode()<<" max size is: "<<temp;
-            if(temp>max) {
-                max = temp;
-                  //  cout<<"max replaced to "<<max<<endl;
-            }
-        }
+         //  cout<<"return max size "<< max<<endl;
         return max;
     }
-  /*  if(tree->GetChildren().empty()) return node;
-    int ret = tree->GetChildren()[0]->GetChildren().size();
-    int toReturn = tree->GetChildren()[0]->GetNode();
-     for(int i = 1 ; i < size ; i++) {
-         if (tree->GetChildren()[i]->GetChildren().size() > ret) {
-             ret = tree->GetChildren()[i]->GetChildren().size();
-             toReturn = tree->GetChildren()[i]->GetNode();
-         }
-     }
-    return toReturn;
-*/
 }
 
 void MaxRankTree::clean() const{

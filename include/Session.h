@@ -53,5 +53,4 @@ private:
     int countCycle;
     std::queue<int> toAdd;
 };
-
 #endif

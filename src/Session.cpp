@@ -11,7 +11,6 @@
 
 using json = nlohmann::json;
 using namespace std;
-
 Session::Session(const std::string &path):g(),treeType(),agents(),infected(),countCycle(0){
     std::ifstream file(path);
     json j = json::parse(file);
@@ -22,9 +21,9 @@ Session::Session(const std::string &path):g(),treeType(),agents(),infected(),cou
     if(tree=="R")
         treeType = Root;
     else if (tree == "M")
-            treeType = MaxRank;
+        treeType = MaxRank;
     else if(tree=="C")
-            treeType = Cycle;
+        treeType = Cycle;
     Session::infected = queue<int>();
     for(auto& elem:j["agents"]) {
         if (elem[0] == "C") {
@@ -102,17 +101,17 @@ const Session & Session::operator=(Session &&other){ // move assignment operator
 
 void Session::simulate() {
     while (toContinue() || countCycle == 0) {
-    //    cout << "start simulate " << countCycle << endl;
+        //    cout << "start simulate " << countCycle << endl;
         vector<Agent *> currAgents = agents;
         for (auto agent : currAgents){
-       //     cout << "start act" << endl;
+           //      cout << "start act" << agent->nodeAgent()<< endl;
             agent->act(*this);
 
-      //      cout << "finish act" << endl;
+            //      cout << "finish act" << endl;
         }
         countCycle++;
         updateInfected();
-    //    cout << "stage " << countCycle << endl;
+        //    cout << "stage " << countCycle << endl;
     }
     json j;
     std::vector<std::vector<int>> edges;
@@ -124,11 +123,11 @@ void Session::simulate() {
     vector<int> areInfected;
     for (Agent *agent : agents) {
         if (agent->getType() == 'V') areInfected.push_back(agent->nodeAgent());
-        }
-        j["infected"] = areInfected;
-        ofstream i("../output.json");
-        i << j;
-        cout << j << endl;
+    }
+    j["infected"] = areInfected;
+    ofstream i("../output.json");
+    i << j;
+    cout << j << endl;
 }
 
 void Session::addAgent(const Agent &agent){
@@ -151,7 +150,7 @@ int Session::dequeueInfected() {
     int temp = infected.front();
     g.SetInodes(temp);
     infected.pop();
-  //  cout<<"num of infected: " << infected.size() << endl;
+    //  cout<<"num of infected: " << infected.size() << endl;
     return temp;
 }
 
@@ -170,7 +169,6 @@ Graph Session::getGraph()const{
 void Session::updateInfected() {
     for(int i=0;i<toAdd.size();i++)
     {
-    //    cout<<toAdd.front()<<endl;
         addAgent(Virus(toAdd.front()));
         enqueueInfected(toAdd.front());
         g.infectNode(toAdd.front());
@@ -182,7 +180,7 @@ std::vector<std::vector<int>> Session::getEdges() {
     return g.GetEdges();
 }
 
- int Session::GetCountCycle() const {
+int Session::GetCountCycle() const {
     return countCycle;
 }
 
@@ -199,31 +197,31 @@ bool Session::isInfected(int node) {
 
 bool Session::toContinue() {
     bool ret=false;
-  //  cout<<"start toContinue loop"<<endl;
+    //  cout<<"start toContinue loop"<<endl;
     for (int i = 0; i < g.getSize() ; i++) {
-    //    cout<<"enter toContinue loop node "<<i <<endl;
+        //    cout<<"enter toContinue loop node "<<i <<endl;
         if (g.isInfected(i))
         {
-     //       cout<<i<<" is infected"<<endl;
+            //       cout<<i<<" is infected"<<endl;
             ret=true;
             break;
         }
         else{
-       //     cout<<i<<" is not infected"<<endl;
+            //     cout<<i<<" is not infected"<<endl;
             vector<int> neighbor = g.GetEdges()[i];
-       //     cout<<" start check "<<i<<" neighbors "<<endl;
+            //     cout<<" start check "<<i<<" neighbors "<<endl;
             for (int j = 0; j < neighbor.size() ; j++) {
-        //        cout<<"check neighbor "<<j<<" of "<<i <<endl;
+                //        cout<<"check neighbor "<<j<<" of "<<i <<endl;
                 if ((neighbor[j]==1) & (g.isInfected(j)))
                 {
-         //           cout<<j<<" is not infected"<<endl;
+                    //           cout<<j<<" is not infected"<<endl;
                     ret=true;
                     break;
                 }
             }
         }
     }
-   // cout <<ret<<endl;
+    // cout <<ret<<endl;
     return ret;
 }
 
