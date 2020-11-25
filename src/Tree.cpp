@@ -123,9 +123,10 @@ Tree * MaxRankTree::clone() const {
 }
 
 int MaxRankTree::traceTree() {
+    cout<<"trace tree from node "<<this->GetNode()<<endl;
     int size =  RetMax(this,this->GetChildren().size());
     int ret= Find (this,size);
-   // cout<<"will return "<<ret<< " with size of "<< size<<endl;
+    cout<<"will return "<<ret<< " with size of "<< size<<endl;
     return ret;
 
 }
@@ -136,7 +137,7 @@ int MaxRankTree::Find(Tree* tree,int size) {
     }
 }
 int MaxRankTree::RetMax(Tree *tree,int size) {
- //   cout<<"check sizes in root "<<tree->GetNode()<<endl;
+   // cout<<"check sizes in root "<<tree->GetNode()<<endl;
     if(tree->GetChildren().empty()) {
         return 0;
     }

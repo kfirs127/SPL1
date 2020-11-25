@@ -29,7 +29,7 @@ bool Graph::isInfected(int nodeInd){
 }
 
 Tree * Graph::BFS(const Session &session, int rootlabel){
-    //cout<<"start BFS" << endl;
+   // cout<<"start BFS" << endl;
     vector<int> neighbors = edgesOf(rootlabel);
     if(neighbors.empty()) return getTree(session,rootlabel);
     Tree* tree = getTree(session,rootlabel);
@@ -60,7 +60,7 @@ Tree * Graph::BFS(const Session &session, int rootlabel){
             //    cout<< temp->GetNode() <<" new size "<<temp->GetChildren().size()<<endl;
             }
         }
-     //   cout<<endl;
+      //  cout<<endl;
     }
     return tree;
 }

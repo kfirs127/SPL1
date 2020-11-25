@@ -18,20 +18,22 @@ Agent * Agent::clone() const{}
 ContactTracer::ContactTracer(){}
 
 void ContactTracer::act(Session &session) {
-    //  cout << "start ContactTracer :act " << endl;
+      cout << "start ContactTracer :act " << endl;
     vector<vector<int>>* edges = session.getPointerEdges();
     int root = session.dequeueInfected();
+    cout<< "contact tracer choode " <<root<<endl;
+                                         
     if(root != -1){
         Tree *t = Tree::createTree(session , root);
+        //    cout<<"num of son of "<<t->GetNode()<<" is: " <<t->GetChildren().size()<<endl;
         int toRemove = t->traceTree();
-        cout<<"remove node "<<toRemove<<endl;
+        cout<<"remove node "<<toRemove<< " from the graph"<<endl;
         for(int i = 0 ; i < edges->size() ; i++){
             (*edges)[toRemove][i] = 0;
         }
         for(int i = 0 ; i < edges->size() ; i++){
             (*edges)[i][toRemove] = 0;
         }
-        int add=session.dequeueInfected();
         delete t;
     }
 }
@@ -53,8 +55,9 @@ Virus::Virus(int nodeInd):nodeInd(nodeInd){}
 
 void Virus::act(Session &session) {
     vector<vector<int>> edges = session.getEdges();
-    for (int i = 0; i < edges[session.getInfected().front()].size() ; i++) {
-        if(edges[session.getInfected().front()][i] == 1 && !session.isInfected(i)) {
+  //  cout<<" num of neighbors of "<< nodeInd<< " is "<< session.getGraph().edgesOf(nodeInd).size() <<endl;
+    for (int i = 0; i < edges[nodeInd].size() ; i++) {
+        if(edges[nodeInd][i] == 1 && !session.isInfected(i)) {
             cout <<nodeInd<< " infectes "<<i<<endl;
             session.addInfected(i);
             break;

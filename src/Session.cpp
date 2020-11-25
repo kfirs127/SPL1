@@ -11,7 +11,7 @@
 
 using json = nlohmann::json;
 using namespace std;
-Session::Session(const std::string &path):g(),treeType(),agents(),infected(),countCycle(0){
+Session::Session(const std::string &path):g(),treeType(),agents(),infected(),countCycle(1){
     std::ifstream file(path);
     json j = json::parse(file);
     cout<<j<<endl;
@@ -100,18 +100,17 @@ const Session & Session::operator=(Session &&other){ // move assignment operator
 
 
 void Session::simulate() {
-    while (toContinue() || countCycle == 0) {
-        //    cout << "start simulate " << countCycle << endl;
+    while (toContinue() || countCycle == 1) {
+            cout << "start simulate " << countCycle << endl;
         vector<Agent *> currAgents = agents;
         for (auto agent : currAgents){
-           //      cout << "start act" << agent->nodeAgent()<< endl;
+                cout << "start act " << agent->nodeAgent()<< endl;
             agent->act(*this);
 
-            //      cout << "finish act" << endl;
+                  cout << "finish act " << endl;
         }
         countCycle++;
         updateInfected();
-        //    cout << "stage " << countCycle << endl;
     }
     json j;
     std::vector<std::vector<int>> edges;
@@ -144,13 +143,13 @@ void Session::enqueueInfected(int Vnode) {
 void Session::addInfected(int inf) {
     toAdd.push(inf);
     infected.push(inf);
+    g.SetInodes(inf);
 }
 int Session::dequeueInfected() {
     if(infected.empty()) return -1;
     int temp = infected.front();
     g.SetInodes(temp);
     infected.pop();
-    //  cout<<"num of infected: " << infected.size() << endl;
     return temp;
 }
 
@@ -174,7 +173,6 @@ void Session::updateInfected() {
         g.infectNode(toAdd.front());
         toAdd.pop();
     }
-
 }
 std::vector<std::vector<int>> Session::getEdges() {
     return g.GetEdges();
