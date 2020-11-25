@@ -46,13 +46,12 @@ Tree * Graph::BFS(const Session &session, int rootlabel){
     while(!nodes.empty()) {
         temp=nodes.front();
         nodes.pop();
-      //  cout<< "tree node: " << temp->GetNode() << endl;
+        cout<< "tree node: " << temp->GetNode() << endl;
         neighbors = edgesOf(temp->GetNode());
-    //    cout<<"root: "<< temp->GetNode()<<endl;
         for (int neighbor : neighbors) {
             Tree *neighborTree;
             if (!IN[neighbor]) {
-           //     cout<< neighbor<<" ";
+                cout<< neighbor<<" ";
                 neighborTree = getTree(session, neighbor);
                 neighborTree->SetDepth(tree->GetDepth() + 1);
                 nodes.push(neighborTree);
@@ -60,7 +59,7 @@ Tree * Graph::BFS(const Session &session, int rootlabel){
                 tree->addChild(neighborTree);
             }
         }
-     //   cout<<endl;
+        cout<<endl;
     }
   //  cout<<"end BFS" << endl;
     for(Tree* son : tree->GetChildren()){
@@ -73,9 +72,9 @@ std::vector<std::vector<int>> Graph::GetEdges() {
 }
 
 std::vector<int> Graph::edgesOf(int node) {
-    vector<int> toReturn = vector<int>();
+    vector<int> toReturn;
     for(int i = 0 ; i < edges.size() ; i++){
-        if(edges[node][i] == 1) {
+        if(edges[node][i] == 1&&edges[i][node] == 1) {
             toReturn.push_back(i);
         }
     }
@@ -84,9 +83,9 @@ std::vector<int> Graph::edgesOf(int node) {
 Tree * Graph::getTree(const Session &session, int source) {
     TreeType type = session.getTreeType();
     if(type == Cycle)
-        return   new CycleTree(source,session.GetCountCycle()) ;
+        return new CycleTree(source,session.GetCountCycle()) ;
     else if(type == MaxRank){
-        return   new MaxRankTree(source);
+        return new MaxRankTree(source);
     }
     return new RootTree(source);
 }

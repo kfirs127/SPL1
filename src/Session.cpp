@@ -170,7 +170,7 @@ Graph Session::getGraph()const{
 void Session::updateInfected() {
     for(int i=0;i<toAdd.size();i++)
     {
-        cout<<toAdd.front()<<endl;
+    //    cout<<toAdd.front()<<endl;
         addAgent(Virus(toAdd.front()));
         enqueueInfected(toAdd.front());
         g.infectNode(toAdd.front());
