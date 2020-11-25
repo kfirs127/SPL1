@@ -7,8 +7,8 @@ using namespace std;
 using json = nlohmann::json;
 
 
-int main(int argc,char** argv){
-    if(argc != 2){
+int main(int argc,char** argv) {
+    if (argc != 2) {
         cout << "usage cTrace <config_path>" << endl;
         return 0;
     }
@@ -17,11 +17,3 @@ int main(int argc,char** argv){
     sess.simulate();
     return 0;
 }
-/*
- char c= file.get();
-    while (file)
-    {
-        std::cout << c;
-        c = file.get();
-    }
- */
