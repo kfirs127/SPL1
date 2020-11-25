@@ -44,7 +44,10 @@ public:
     void updateInfected();
     void addInfected(int inf);
     std::vector<std::vector<int>>* getPointerEdges();
-
+    bool Iinfected(int node);
+    std::vector<int> GetInfected();
+    void AddInfected(int node);
+    int unActive;
 private:
     Graph g;
     TreeType treeType;
@@ -52,5 +55,7 @@ private:
     std::queue<int> infected;
     int countCycle;
     std::queue<int> toAdd;
+    std::vector<int> infections;
+
 };
 #endif

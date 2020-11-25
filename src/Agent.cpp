@@ -55,14 +55,19 @@ Virus::Virus(int nodeInd):nodeInd(nodeInd){}
 
 void Virus::act(Session &session) {
     vector<vector<int>> edges = session.getEdges();
+    bool ret=false;
   //  cout<<" num of neighbors of "<< nodeInd<< " is "<< session.getGraph().edgesOf(nodeInd).size() <<endl;
     for (int i = 0; i < edges[nodeInd].size() ; i++) {
-        if(edges[nodeInd][i] == 1 && !session.isInfected(i)) {
+        if(edges[nodeInd][i] == 1 && !session.Iinfected(i)) {
             cout <<nodeInd<< " infectes "<<i<<endl;
             session.addInfected(i);
+            session.AddInfected(i);
+            ret=true;
             break;
         }
     }
+    if(!ret)
+        session.unActive--;
 }
 
 Agent * Virus::clone() const {

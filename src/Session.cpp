@@ -33,6 +33,7 @@ Session::Session(const std::string &path):g(),treeType(),agents(),infected(),cou
         else {
             Agent *agent = new Virus(elem[1]);
             agents.push_back(agent);
+            AddInfected(agent->nodeAgent());
             if(agent->nodeAgent() != 1) infected.push(agent->nodeAgent());
         }
     }
@@ -194,35 +195,49 @@ bool Session::isInfected(int node) {
 }
 
 bool Session::toContinue() {
-    bool ret=false;
-    //  cout<<"start toContinue loop"<<endl;
-    for (int i = 0; i < g.getSize() ; i++) {
+    if(infected.empty() || infections.size() == g.getSize()) return false;
+  for (int i = 0; i < g.getSize() ; i++) {
         //    cout<<"enter toContinue loop node "<<i <<endl;
-        if (g.isInfected(i))
+        if(Iinfected(i))
         {
-            //       cout<<i<<" is infected"<<endl;
-            ret=true;
-            break;
+            for(int a: getGraph().edgesOf(i)) {
+                if (!Iinfected(a)) {
+                    return true;
+                }
+            }
         }
         else{
             //     cout<<i<<" is not infected"<<endl;
-            vector<int> neighbor = g.GetEdges()[i];
             //     cout<<" start check "<<i<<" neighbors "<<endl;
-            for (int j = 0; j < neighbor.size() ; j++) {
-                //        cout<<"check neighbor "<<j<<" of "<<i <<endl;
-                if ((neighbor[j]==1) & (g.isInfected(j)))
+            for(int a: getGraph().edgesOf(i)) {
+            if (isInfected(a))
                 {
                     //           cout<<j<<" is not infected"<<endl;
-                    ret=true;
-                    break;
+                    return true;
                 }
             }
         }
     }
-    // cout <<ret<<endl;
-    return ret;
+     //cout<< "if continue: " <<ret<<endl;
+    return false;
+
+
 }
 
 std::vector<std::vector<int>> * Session::getPointerEdges() {
     return g.getPointerEdges();
+}
+bool Session::Iinfected(int node) {
+
+    for(int a: GetInfected() )
+        if(a==node)
+            return true;
+    return false;
+}
+std::vector<int> Session::GetInfected() { return this->infections;}
+void Session::AddInfected(int node) { this->infections.push_back(node);
+cout<< " infected list: "<<endl;
+for(int a: infections)
+    cout<< a;
+cout<<endl;
 }

@@ -64,7 +64,7 @@ std::vector<Tree*> Tree::GetChildren() const {
     return children;
 }
 
-int Tree::RetMax(Tree *tree,int size) {return -1;}
+vector<int> Tree::RetMax(Tree *tree,std::vector<int> vec) {return vector<int>();}
 
 //CycleTree
 CycleTree::CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(currCycle){}
@@ -124,22 +124,15 @@ Tree * MaxRankTree::clone() const {
 
 int MaxRankTree::traceTree() {
     cout<<"trace tree from node "<<this->GetNode()<<endl;
-    int size =  RetMax(this,this->GetChildren().size());
-    int ret= Find (this,size);
-    cout<<"will return "<<ret<< " with size of "<< size<<endl;
-    return ret;
+    int x=this->GetChildren().size();
+    vector<int> vec={x, this->GetNode()};
+    return RetMax(this,vec)[1];
 
 }
-int MaxRankTree::Find(Tree* tree,int size) {
-    if (tree->GetChildren().size() == size||tree->GetChildren().size() == 0) return tree->GetNode();
-    for (Tree *tree1: tree->GetChildren()) {
-        return Find(tree1, size);
-    }
-}
-int MaxRankTree::RetMax(Tree *tree,int size) {
+vector<int> MaxRankTree::RetMax(Tree *tree,vector<int> vec) {
    // cout<<"check sizes in root "<<tree->GetNode()<<endl;
     if(tree->GetChildren().empty()) {
-        return 0;
+        return vec;
     }
     else{
         int max=tree->GetChildren().size();
@@ -148,19 +141,21 @@ int MaxRankTree::RetMax(Tree *tree,int size) {
         //   cout<<tree1->GetNode()<< " children num is " <<tree1->GetChildren().size()<<endl;
             for(Tree* tree1 : tree->GetChildren()) {
             //   cout<<" for son: "<<tree1->GetNode()<<endl;
-                if(tree1->GetChildren().size()>max) {
-                    max = tree1->GetChildren().size();
+                if(tree1->GetChildren().size() > vec[0]) {
+                    vec[0] = tree1->GetChildren().size();
+                    vec[1]=tree1->GetNode();
                  //     cout<<" replace max size to "<<max<< " from son: "<<tree1->GetNode()<<endl;
                 }
-                int temp=RetMax(tree1,max);
+                vector<int>temp = RetMax(tree1,vec);
             //    cout<<tree1->GetNode()<<" max size is: "<<temp<< endl;
-                if(temp>max) {
-                    max = temp;
+                if(temp[0]>vec[0]) {
+                    vec[0] = temp[0];
+                    vec[1]=temp[1];
              //         cout<<"max replaced to "<<max<<endl;
                 }
             }
          //  cout<<"return max size "<< max<<endl;
-        return max;
+        return vec;
     }
 }
 
