@@ -36,7 +36,6 @@ public:
     virtual int traceTree();
     virtual Tree* clone() const;
     virtual void clean() const;
-    int getSon(int currCyc);
     std::vector<Tree*> getChildren() const;
 private:
     int currCycle;

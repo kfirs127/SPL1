@@ -61,9 +61,9 @@ void Virus::act(Session &session) {
         session.AddInfected(nodeInd);
     }
     vector<vector<int>> edges = session.getEdges();
-    cout<<" num of neighbors of "<< nodeInd<< " is "<< session.getGraph().edgesOf(nodeInd).size() <<endl;
+  //  cout<<" num of neighbors of "<< nodeInd<< " is "<< session.getGraph().edgesOf(nodeInd).size() <<endl;
     for (int i = 0; i < edges[nodeInd].size() ; i++) {
-        if(edges[nodeInd][i] == 1 && !session.Iinfected(i)) {
+        if(edges[nodeInd][i] == 1 && !session.hasAgent(i)) {
             cout <<" node "<<nodeInd<< " infected "<<i<<endl;
             session.updateInfected(i);
             break;

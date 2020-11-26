@@ -46,6 +46,7 @@ public:
     bool Iinfected(int node);
     std::vector<int> GetInfected();
     void AddInfected(int node);
+    bool hasAgent(int i);
 
 private:
     Graph g;

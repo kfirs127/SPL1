@@ -72,19 +72,14 @@ CycleTree::CycleTree(int rootLabel, int currCycle): Tree(rootLabel),currCycle(cu
 CycleTree::~CycleTree() {}
 
 int CycleTree::traceTree() {
-    return getSon(this->currCycle);
-}
-
-int CycleTree::getSon(int currCyc){
-    if(currCyc==0)
-        return this->GetNode();
-    else{
-        Tree* tempTree = this->getChildren().at(0);
-        for(int i = 1 ; i < currCycle ; i++){
-            tempTree = tempTree->GetChildren().at(0);
+    CycleTree *output=this;
+    for (int i = 0; i < currCycle-1; ++i) {
+        if (output->GetChildren().size()>0) {
+            CycleTree *temp = (CycleTree *) (((output->GetChildren()))[0]);
+            output = temp;
         }
-        return tempTree->GetNode();
     }
+    return output->GetNode();
 }
 
 Tree * CycleTree::clone() const{

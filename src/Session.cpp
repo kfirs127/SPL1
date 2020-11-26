@@ -103,14 +103,29 @@ const Session & Session::operator=(Session &&other){ // move assignment operator
 void Session::simulate() {
     while (toContinue() || countCycle == 1) {
             cout << "start simulate " << countCycle << endl;
+        for(Agent * age :agents)
+        {
+            cout<< age->nodeAgent() <<" ";
+        }
+        cout<<endl;
         vector<Agent *> currAgents = agents;
         cout<< " num of agents is: "<<currAgents.size()<<endl;
+        for(Agent * age :currAgents)
+        {
+            cout<< age->nodeAgent() <<" ";
+        }
+        cout<<endl;
         int x=currAgents.size();
         for(int i=0;i<x;i++){
                 cout << currAgents[i]->nodeAgent()<<" start act " << endl;
         currAgents[i]->act(*this);
 
                   cout  << currAgents[i]->nodeAgent()<< " finish act " << endl;
+            for(Agent * age :currAgents)
+            {
+                cout<< age->nodeAgent() <<" ";
+            }
+            cout<<endl;
         }
         countCycle++;
     }
@@ -167,7 +182,7 @@ void Session::updateInfected(int infected) {
 
         addAgent(Virus(infected));
         g.infectNode(infected);
-     //   cout<< " node "<< infected<< " added to infected list and now removed from toAdd list" <<endl;
+        cout<< " node "<< infected<< " added to agents list " <<endl;
 }
 
 std::vector<std::vector<int>> Session::getEdges() {
@@ -198,44 +213,14 @@ bool Session::toContinue() {
         if(a->nodeAgent()!=-1) {
             vector<int> neighbors = g.edgesOf(a->nodeAgent());
             for (int nei: neighbors) {
-                if (!Iinfected(nei))
+                if (!Iinfected(nei)) {
                     return true;
-                break;
+
+                }
             }
         }
     }
     return false;
-
-  /* for (int i = 0; i < g.getSize() ; i++) {
-        //    cout<<"enter toContinue loop node "<<i <<endl;
-        if(Iinfected(i))
-        {
-            for(int a: getGraph().edgesOf(i)) {
-                if (!Iinfected(a)) {
-                    ret=true;
-                    cout<< "if continue: " << ret <<endl;
-                    return ret;
-                }
-            }
-        }
-        else{
-          //       cout<<i<<" is not infected"<<endl;
-           //      cout<<" start check "<<i<<" neighbors "<<endl;
-            for(int a: getGraph().edgesOf(i)) {
-            if (Iinfected(a))
-                {
-                    ret= true;
-                    cout<< "if continue: " << ret <<endl;
-                    return ret;
-
-                }
-            }
-        }
-    }
-     cout<< "if continue: " << ret <<endl;
-    return ret;
-
-*/
 }
 
 std::vector<std::vector<int>> * Session::getPointerEdges() {
@@ -254,4 +239,13 @@ cout<< " infected list: "<<endl;
 for(int a: infections)
     cout<< a;
 cout<<endl;
+}
+
+bool Session::hasAgent(int i) {
+    for(Agent* a: agents )
+    {
+        if(a->nodeAgent()==i)
+            return true;
+    }
+    return false;
 }
