@@ -34,7 +34,7 @@ Session::Session(const std::string &path):g(),treeType(),agents(),infected(),cou
             Agent *agent = new Virus(elem[1]);
             agents.push_back(agent);
             AddInfected(agent->nodeAgent());
-            if(agent->nodeAgent() != 1) infected.push(agent->nodeAgent());
+            infected.push(agent->nodeAgent());
         }
     }
 
@@ -104,14 +104,15 @@ void Session::simulate() {
     while (toContinue() || countCycle == 1) {
             cout << "start simulate " << countCycle << endl;
         vector<Agent *> currAgents = agents;
-        for (auto agent : currAgents){
-                cout << "start act " << agent->nodeAgent()<< endl;
-            agent->act(*this);
+        cout<< " num of agents is: "<<currAgents.size()<<endl;
+        int x=currAgents.size();
+        for(int i=0;i<x;i++){
+                cout << currAgents[i]->nodeAgent()<<" start act " << endl;
+        currAgents[i]->act(*this);
 
-                  cout << "finish act " << endl;
+                  cout  << currAgents[i]->nodeAgent()<< " finish act " << endl;
         }
         countCycle++;
-        updateInfected();
     }
     json j;
     std::vector<std::vector<int>> edges;
@@ -141,11 +142,7 @@ void Session::setGraph(const Graph& graph) {
 void Session::enqueueInfected(int Vnode) {
     infected.push(Vnode);
 }
-void Session::addInfected(int inf) {
-    toAdd.push(inf);
-    infected.push(inf);
-    g.SetInodes(inf);
-}
+
 int Session::dequeueInfected() {
     if(infected.empty()) return -1;
     int temp = infected.front();
@@ -166,15 +163,13 @@ std::queue<int> Session::getInfected() {
 Graph Session::getGraph()const{
     return g;
 }
-void Session::updateInfected() {
-    for(int i=0;i<toAdd.size();i++)
-    {
-        addAgent(Virus(toAdd.front()));
-        enqueueInfected(toAdd.front());
-        g.infectNode(toAdd.front());
-        toAdd.pop();
-    }
+void Session::updateInfected(int infected) {
+
+        addAgent(Virus(infected));
+        g.infectNode(infected);
+     //   cout<< " node "<< infected<< " added to infected list and now removed from toAdd list" <<endl;
 }
+
 std::vector<std::vector<int>> Session::getEdges() {
     return g.GetEdges();
 }
@@ -191,37 +186,56 @@ bool Session::isInfected(int node) {
         if(temp == node) isInfected = true;
         infected.push(temp);
     }
+    cout<< node <<" is infected: " <<isInfected <<endl ;
     return isInfected;
 }
 
 bool Session::toContinue() {
-    if(infected.empty() || infections.size() == g.getSize()) return false;
-  for (int i = 0; i < g.getSize() ; i++) {
+  //  bool ret=false;
+    if(infections.size() == g.getSize()) return false;
+    for(Agent* a : agents)
+    {
+        if(a->nodeAgent()!=-1) {
+            vector<int> neighbors = g.edgesOf(a->nodeAgent());
+            for (int nei: neighbors) {
+                if (!Iinfected(nei))
+                    return true;
+                break;
+            }
+        }
+    }
+    return false;
+
+  /* for (int i = 0; i < g.getSize() ; i++) {
         //    cout<<"enter toContinue loop node "<<i <<endl;
         if(Iinfected(i))
         {
             for(int a: getGraph().edgesOf(i)) {
                 if (!Iinfected(a)) {
-                    return true;
+                    ret=true;
+                    cout<< "if continue: " << ret <<endl;
+                    return ret;
                 }
             }
         }
         else{
-            //     cout<<i<<" is not infected"<<endl;
-            //     cout<<" start check "<<i<<" neighbors "<<endl;
+          //       cout<<i<<" is not infected"<<endl;
+           //      cout<<" start check "<<i<<" neighbors "<<endl;
             for(int a: getGraph().edgesOf(i)) {
-            if (isInfected(a))
+            if (Iinfected(a))
                 {
-                    //           cout<<j<<" is not infected"<<endl;
-                    return true;
+                    ret= true;
+                    cout<< "if continue: " << ret <<endl;
+                    return ret;
+
                 }
             }
         }
     }
-     //cout<< "if continue: " <<ret<<endl;
-    return false;
+     cout<< "if continue: " << ret <<endl;
+    return ret;
 
-
+*/
 }
 
 std::vector<std::vector<int>> * Session::getPointerEdges() {

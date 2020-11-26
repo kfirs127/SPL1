@@ -48,19 +48,19 @@ Tree * Graph::BFS(const Session &session, int rootlabel){
         neighbors = edgesOf(temp->GetNode());
         for (int neighbor : neighbors) {
             Tree *neighborTree;
-           // cout<<IN[neighbor] <<" for: "<<neighbor<<endl;
+          //  cout<<IN[neighbor] <<" for: "<<neighbor<<endl;
             if (!IN[neighbor]) {
-            //    cout<< neighbor<<" "<<endl;
+             //   cout<< neighbor<<" "<<endl;
                 neighborTree = getTree(session, neighbor);
-             //   cout<<neighborTree->GetNode() <<" size beginnig "<<neighborTree->GetChildren().size()<<endl;
+              //  cout<<neighborTree->GetNode() <<" size beginnig "<<neighborTree->GetChildren().size()<<endl;
                 neighborTree->SetDepth(tree->GetDepth() + 1);
                 nodes.push(neighborTree);
                 IN[neighborTree->GetNode()]=true;
                 temp->addChild(neighborTree);
-            //    cout<< temp->GetNode() <<" new size "<<temp->GetChildren().size()<<endl;
+             //   cout<< temp->GetNode() <<" new size "<<temp->GetChildren().size()<<endl;
             }
         }
-      //  cout<<endl;
+     //   cout<<endl;
     }
     return tree;
 }

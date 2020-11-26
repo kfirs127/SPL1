@@ -18,22 +18,24 @@ Agent * Agent::clone() const{}
 ContactTracer::ContactTracer(){}
 
 void ContactTracer::act(Session &session) {
-      cout << "start ContactTracer :act " << endl;
+      cout <<" start ContactTracer act " << endl;
     vector<vector<int>>* edges = session.getPointerEdges();
     int root = session.dequeueInfected();
-    cout<< "contact tracer choode " <<root<<endl;
+    cout<< " contact tracer chose " <<root<< " as root"<<endl;
+    cout<<" next infected on the list is "<< session.getInfected().front()<<endl;
                                          
     if(root != -1){
         Tree *t = Tree::createTree(session , root);
-        //    cout<<"num of son of "<<t->GetNode()<<" is: " <<t->GetChildren().size()<<endl;
+        cout<<"num of son of "<<t->GetNode()<<" is: " <<t->GetChildren().size()<<endl;
         int toRemove = t->traceTree();
-        cout<<"remove node "<<toRemove<< " from the graph"<<endl;
+        cout<<" remove node "<<toRemove<< " from the graph "<<endl;
         for(int i = 0 ; i < edges->size() ; i++){
             (*edges)[toRemove][i] = 0;
         }
-        for(int i = 0 ; i < edges->size() ; i++){
+        for(int i = 0 ; i < edges->size() ; i++) {
             (*edges)[i][toRemove] = 0;
         }
+        cout<<" removed edges of node " <<toRemove <<endl;
         delete t;
     }
 }
@@ -54,20 +56,19 @@ char ContactTracer::getType() const {
 Virus::Virus(int nodeInd):nodeInd(nodeInd){}
 
 void Virus::act(Session &session) {
+    if(!session.Iinfected(nodeInd)){
+        session.enqueueInfected(nodeInd);
+        session.AddInfected(nodeInd);
+    }
     vector<vector<int>> edges = session.getEdges();
-    bool ret=false;
-  //  cout<<" num of neighbors of "<< nodeInd<< " is "<< session.getGraph().edgesOf(nodeInd).size() <<endl;
+    cout<<" num of neighbors of "<< nodeInd<< " is "<< session.getGraph().edgesOf(nodeInd).size() <<endl;
     for (int i = 0; i < edges[nodeInd].size() ; i++) {
         if(edges[nodeInd][i] == 1 && !session.Iinfected(i)) {
-            cout <<nodeInd<< " infectes "<<i<<endl;
-            session.addInfected(i);
-            session.AddInfected(i);
-            ret=true;
+            cout <<" node "<<nodeInd<< " infected "<<i<<endl;
+            session.updateInfected(i);
             break;
         }
     }
-    if(!ret)
-        session.unActive--;
 }
 
 Agent * Virus::clone() const {

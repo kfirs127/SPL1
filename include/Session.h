@@ -41,20 +41,18 @@ public:
     int GetCountCycle()const;
     bool isInfected(int node);
     bool toContinue();
-    void updateInfected();
-    void addInfected(int inf);
+    void updateInfected(int infected);
     std::vector<std::vector<int>>* getPointerEdges();
     bool Iinfected(int node);
     std::vector<int> GetInfected();
     void AddInfected(int node);
-    int unActive;
+
 private:
     Graph g;
     TreeType treeType;
     std::vector<Agent*>agents;
     std::queue<int> infected;
     int countCycle;
-    std::queue<int> toAdd;
     std::vector<int> infections;
 
 };
